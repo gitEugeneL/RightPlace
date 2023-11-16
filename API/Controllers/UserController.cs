@@ -18,8 +18,6 @@ public class UserController : ControllerBase
     [ProducesResponseType(typeof(UserResponseDto), StatusCodes.Status201Created)]
     public async Task<ActionResult> Create([FromBody] UserRequestDto dto)
     {
-        Console.WriteLine(dto);
-        
         var result = await _userService.Create(dto);
         return Created($"api/users/{result.Id}", result);
     }

@@ -1,8 +1,8 @@
-using System.Text;
 using API.Entities;
 using API.Exceptions;
 using API.Models.DTOs;
 using API.Repositories;
+using API.Security;
 
 namespace API.Services;
 
@@ -15,30 +15,36 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IRoleRepository _roleRepository;
-    public UserService(IUserRepository userRepository, IRoleRepository roleRepository)
+    private readonly IPasswordHasher _passwordHasher;
+    
+    public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IPasswordHasher passwordHasher)
     {
         _userRepository = userRepository;
         _roleRepository = roleRepository;
+        _passwordHasher = passwordHasher;
     }
     
     public async Task<UserResponseDto> Create(UserRequestDto dto)
     {
         if (await _userRepository.UserExistAsync(dto.Email))
             throw new AlreadyExistException($"User: {dto.Email} already exists"); // todo add custom validation
-        
-        var user = new User
-        {
-            Email = dto.Email,
-            PasswordHash = Encoding.UTF8.GetBytes(dto.Password),  // todo create password hasher 
-            PasswordSalt = Encoding.UTF8.GetBytes(dto.Password), // todo create password hasher
-            Role = await _roleRepository.GetRoleByValueAsync("ROLE_USER") ?? new Role { Value = "ROLE_USER" }
-        };
-        await _userRepository.CreateUserAsync(user);
+       
+        _passwordHasher.CreatePasswordHash(dto.Password, out var hash, out var salt);
+
+        var newUser = await _userRepository.CreateUserAsync(
+            new User
+            {
+                Email = dto.Email,
+                PasswordHash = hash,
+                PasswordSalt = salt,
+                Role = await _roleRepository.GetRoleByValueAsync("ROLE_USER") ?? new Role { Value = "ROLE_USER" }
+            }
+        );
         
         return new UserResponseDto // todo create mapper
         {
-            Id = user.Id,
-            Email = user.Email
+            Id = newUser.Id,
+            Email = newUser.Email
         };
     }
 }
