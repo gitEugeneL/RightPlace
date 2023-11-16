@@ -1,6 +1,7 @@
 using API.Entities;
 using API.Exceptions;
 using API.Models.DTOs;
+using API.Models.DTOs.User;
 using API.Repositories;
 using API.Security;
 

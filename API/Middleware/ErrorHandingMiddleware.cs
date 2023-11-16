@@ -10,6 +10,11 @@ public class ErrorHandingMiddleware : IMiddleware
         {
             await next.Invoke(context);
         }
+        catch (NotFoundException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status404NotFound;
+            await context.Response.WriteAsync(exception.Message);
+        }
         catch (AlreadyExistException exception)
         {
             context.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -21,4 +26,4 @@ public class ErrorHandingMiddleware : IMiddleware
             await context.Response.WriteAsync("Something went wrong");
         }
     }
-}
+}   

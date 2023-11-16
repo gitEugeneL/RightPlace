@@ -6,7 +6,7 @@ public interface IPasswordHasher
     bool VerifyPasswordHash(string password, byte[] hash, byte[] salt);
 } 
 
-public class PasswordHasher : IPasswordHasher
+public sealed class PasswordHasher : IPasswordHasher
 {
     public void CreatePasswordHash(string password, out byte[] hash, out byte[] salt)
     {
@@ -17,7 +17,7 @@ public class PasswordHasher : IPasswordHasher
 
     public bool VerifyPasswordHash(string password, byte[] hash, byte[] salt)
     {
-        using var hmac = new System.Security.Cryptography.HMACSHA512();
+        using var hmac = new System.Security.Cryptography.HMACSHA512(salt);
         var computedHash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(password));
         return computedHash.SequenceEqual(hash);
     }
