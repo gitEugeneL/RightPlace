@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace API.Models.DTOs;
+namespace API.Models.DTOs.User;
 
 public record UserRequestDto
 {

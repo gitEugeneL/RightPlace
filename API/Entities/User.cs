@@ -13,7 +13,9 @@ public sealed class User
     public DateTime? DateOfBirth { get; set; }
     public DateTime CreatedDate { get; set; }
 
-    // relation
+    // relations --------------------------------------------------------------------
     public required Role Role { get; set; }
     public Guid RoleId { get; set; }
+
+    public List<RefreshToken> RefreshTokens { get; set; } = new();
 }

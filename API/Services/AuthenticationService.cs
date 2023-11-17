@@ -1,3 +1,4 @@
+using API.Entities;
 using API.Exceptions;
 using API.Models;
 using API.Models.DTOs.Auth;
@@ -8,7 +9,8 @@ namespace API.Services;
 
 public interface IAuthenticationService
 {
-    Task<Token> Login(AuthRequestDto dto);
+    Task<Token> Login(HttpResponse response, AuthRequestDto dto);
+    Task<Token> Refresh(HttpResponse response, string? requestRefreshToken);
 }
 
 public class AuthenticationService : IAuthenticationService
@@ -24,13 +26,58 @@ public class AuthenticationService : IAuthenticationService
         _jwtManager = jwtManager;
     }
     
-    public async Task<Token> Login(AuthRequestDto dto)
+    public async Task<Token> Login(HttpResponse response, AuthRequestDto dto)
     {
         var user = await _userRepository.FindUserByEmailAsync(dto.Email);
         if (user is null || !_passwordHasher.VerifyPasswordHash(dto.Password, user.PasswordHash, user.PasswordSalt))
             throw new NotFoundException($"User '{dto.Email}' doesn't exist or your password is incorrect");
         
+        if (user.RefreshTokens.Count >= 5) // each user can only have 5  refresh tokens
+        {
+            var oldestToken = user.RefreshTokens.OrderBy(rt => rt.CreatedDate).First();
+            user.RefreshTokens.Remove(oldestToken);
+        }
+        
         var accessToken = _jwtManager.CreateToken(user);
+        var refreshToken = _jwtManager.GenerateRefreshToken(user);
+        
+        user.RefreshTokens.Add(refreshToken);
+        await _userRepository.UpdateUserAsync(user);
+        
+        _jwtManager.SetRefreshTokenToCookies(response, refreshToken);
         return new Token { Type = "Bearer", AccessToken = accessToken };
+    }
+
+    public async Task<Token> Refresh(HttpResponse response, string? requestRefreshToken)
+    {
+        var user = await ValidateRefreshToken(requestRefreshToken);
+
+        var accessToken = _jwtManager.CreateToken(user);
+        var refreshToken = _jwtManager.GenerateRefreshToken(user);
+
+        user.RefreshTokens.Add(refreshToken);
+        await _userRepository.UpdateUserAsync(user);
+
+        _jwtManager.SetRefreshTokenToCookies(response, refreshToken);
+        return new Token { Type = "Bearer", AccessToken = accessToken };
+    }
+
+    private async Task<User> ValidateRefreshToken(string? requestRefreshToken)
+    {
+        if (requestRefreshToken is null)
+            throw new UnauthorizedException("Refresh token doesn't exist");
+        
+        var user = await _userRepository.FindUserByRefreshTokenAsync(requestRefreshToken);
+        if (user is null)
+            throw new UnauthorizedException("Refresh token isn't valid");
+        
+        var userRefreshToken = user.RefreshTokens.First(rt => rt.Token == requestRefreshToken);
+        // check refresh token expiration time
+        if (userRefreshToken.Expires < DateTime.Now) 
+            throw new UnauthorizedException("Refresh token is outdated");
+        // remove the old refresh token
+        user.RefreshTokens.Remove(userRefreshToken); 
+        
+        return user;
     }
 }

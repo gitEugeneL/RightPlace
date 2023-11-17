@@ -1,5 +1,6 @@
-using API.Models.DTOs;
+using API.Models.DTOs.User;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -20,5 +21,12 @@ public class UserController : ControllerBase
     {
         var result = await _userService.Create(dto);
         return Created($"api/users/{result.Id}", result);
+    }
+
+    [Authorize(Roles = "ROLE_USER")]
+    [HttpGet("test")]
+    public ActionResult<string> Test()
+    {
+        return "authorize test";
     }
 }

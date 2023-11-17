@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using API.Entities;
 using Microsoft.IdentityModel.Tokens;
 
@@ -8,6 +9,8 @@ namespace API.Security;
 public interface IJwtManager
 {
     string CreateToken(User user);
+    RefreshToken GenerateRefreshToken(User user);
+    void SetRefreshTokenToCookies(HttpResponse response, RefreshToken refreshToken);
 }
 
 public sealed class JwtManager : IJwtManager
@@ -44,6 +47,25 @@ public sealed class JwtManager : IJwtManager
         
         return handler.WriteToken(token);
     }
+
+    public RefreshToken GenerateRefreshToken(User user)
+    {
+        return new RefreshToken
+        {
+            Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(256)),
+            Expires = DateTime.Now.AddDays(
+                int.Parse(_configuration.GetSection("Authentication:RefreshTokenLifetimeDays").Value!)),
+            User = user
+        };
+    }
     
-    
+    public void SetRefreshTokenToCookies(HttpResponse response, RefreshToken refreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = refreshToken.Expires,
+        };
+        response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+    }
 }

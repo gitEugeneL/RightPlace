@@ -1,4 +1,4 @@
-namespace API.Models.DTOs;
+namespace API.Models.DTOs.User;
 
 public record UserResponseDto
 {

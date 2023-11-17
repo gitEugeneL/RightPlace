@@ -1,3 +1,4 @@
+using API.Models;
 using API.Models.DTOs.Auth;
 using API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,18 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost("login")]
+    [ProducesResponseType(typeof(Token), StatusCodes.Status200OK)]
     public async Task<ActionResult> Login([FromBody] AuthRequestDto dto)
     {
-        var result = await _authenticationService.Login(dto);
+        var result = await _authenticationService.Login(Response, dto);
+        return Ok(result);
+    }
+
+    [HttpPost("refresh")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> Refresh()
+    {
+        var result = await _authenticationService.Refresh(Response, Request.Cookies["refreshToken"]);
         return Ok(result);
     }
 }

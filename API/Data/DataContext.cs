@@ -9,6 +9,7 @@ public class DataContext : DbContext
 
     public required DbSet<User> Users { get; set; }
     public required DbSet<Role> Roles { get; set; }
+    public required DbSet<RefreshToken> RefreshTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +31,15 @@ public class DataContext : DbContext
             eb.Property(u => u.LastName).HasMaxLength(100);
             eb.Property(u => u.Phone).HasMaxLength(12);
             eb.Property(u => u.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            // many to one
+            eb.HasMany<RefreshToken>(u => u.RefreshTokens)
+                .WithOne(rt => rt.User)
+                .HasForeignKey(rt => rt.UserId);
+        });
+
+        modelBuilder.Entity<RefreshToken>(eb =>
+        {
+            eb.Property(rt => rt.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
     }
 }

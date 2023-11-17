@@ -1,6 +1,5 @@
 using API.Entities;
 using API.Exceptions;
-using API.Models.DTOs;
 using API.Models.DTOs.User;
 using API.Repositories;
 using API.Security;
@@ -29,7 +28,7 @@ public class UserService : IUserService
     {
         if (await _userRepository.UserExistAsync(dto.Email))
             throw new AlreadyExistException($"User: {dto.Email} already exists"); // todo add custom validation
-       
+
         _passwordHasher.CreatePasswordHash(dto.Password, out var hash, out var salt);
 
         var newUser = await _userRepository.CreateUserAsync(

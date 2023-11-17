@@ -10,6 +10,11 @@ public class ErrorHandingMiddleware : IMiddleware
         {
             await next.Invoke(context);
         }
+        catch (UnauthorizedException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            await context.Response.WriteAsync(exception.Message);
+        }
         catch (NotFoundException exception)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;

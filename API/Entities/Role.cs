@@ -6,5 +6,5 @@ public sealed class Role
     public required string Value { get; set; }
     
     // relation
-    public List<User> Users { get; set; }
+    public List<User> Users { get; set; } = new();
 }
