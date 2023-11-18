@@ -6,4 +6,7 @@ riderModule.iml
 .idea
 
 Migrations
+
 sqlite.db
+sqlite.db-shm
+sqlite.db-wal

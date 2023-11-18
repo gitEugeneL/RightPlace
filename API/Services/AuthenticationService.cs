@@ -11,6 +11,7 @@ public interface IAuthenticationService
 {
     Task<Token> Login(HttpResponse response, AuthRequestDto dto);
     Task<Token> Refresh(HttpResponse response, string? requestRefreshToken);
+    Task Logout(HttpResponse response, string? requestRefreshToken);
 }
 
 public class AuthenticationService : IAuthenticationService
@@ -50,7 +51,7 @@ public class AuthenticationService : IAuthenticationService
 
     public async Task<Token> Refresh(HttpResponse response, string? requestRefreshToken)
     {
-        var user = await ValidateRefreshToken(requestRefreshToken);
+        var user = await ValidateAndRemoveRefreshToken(requestRefreshToken);
 
         var accessToken = _jwtManager.CreateToken(user);
         var refreshToken = _jwtManager.GenerateRefreshToken(user);
@@ -62,7 +63,14 @@ public class AuthenticationService : IAuthenticationService
         return new Token { Type = "Bearer", AccessToken = accessToken };
     }
 
-    private async Task<User> ValidateRefreshToken(string? requestRefreshToken)
+    public async Task Logout(HttpResponse response, string? requestRefreshToken)
+    {
+        var user = await ValidateAndRemoveRefreshToken(requestRefreshToken);
+        _jwtManager.DeleteRefreshTokenFromCookie(response);
+        await _userRepository.UpdateUserAsync(user);
+    }
+    
+    private async Task<User> ValidateAndRemoveRefreshToken(string? requestRefreshToken)
     {
         if (requestRefreshToken is null)
             throw new UnauthorizedException("Refresh token doesn't exist");
@@ -72,9 +80,11 @@ public class AuthenticationService : IAuthenticationService
             throw new UnauthorizedException("Refresh token isn't valid");
         
         var userRefreshToken = user.RefreshTokens.First(rt => rt.Token == requestRefreshToken);
+        
         // check refresh token expiration time
         if (userRefreshToken.Expires < DateTime.Now) 
             throw new UnauthorizedException("Refresh token is outdated");
+        
         // remove the old refresh token
         user.RefreshTokens.Remove(userRefreshToken); 
         

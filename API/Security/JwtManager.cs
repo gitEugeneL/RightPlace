@@ -11,6 +11,7 @@ public interface IJwtManager
     string CreateToken(User user);
     RefreshToken GenerateRefreshToken(User user);
     void SetRefreshTokenToCookies(HttpResponse response, RefreshToken refreshToken);
+    void DeleteRefreshTokenFromCookie(HttpResponse response);
 }
 
 public sealed class JwtManager : IJwtManager
@@ -67,5 +68,10 @@ public sealed class JwtManager : IJwtManager
             Expires = refreshToken.Expires,
         };
         response.Cookies.Append("refreshToken", refreshToken.Token, cookieOptions);
+    }
+
+    public void DeleteRefreshTokenFromCookie(HttpResponse response)
+    {
+        response.Cookies.Delete("refreshToken");
     }
 }

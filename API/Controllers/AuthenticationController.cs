@@ -1,6 +1,7 @@
 using API.Models;
 using API.Models.DTOs.Auth;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -30,5 +31,14 @@ public class AuthenticationController : ControllerBase
     {
         var result = await _authenticationService.Refresh(Response, Request.Cookies["refreshToken"]);
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> Logout()
+    {
+        await _authenticationService.Logout(Response, Request.Cookies["refreshToken"]);
+        return Ok();
     }
 }
