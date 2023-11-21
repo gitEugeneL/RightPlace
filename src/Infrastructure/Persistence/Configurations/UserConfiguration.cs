@@ -1,5 +1,6 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -30,7 +31,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
         
-        // todo add updated field logic
+        builder.Property(refreshToken => refreshToken.Updated)
+            .ValueGeneratedOnUpdate()
+            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Save);
         
         // many to one relation ------------------------------------------------------
         builder.HasMany<RefreshToken>(user => user.RefreshTokens)

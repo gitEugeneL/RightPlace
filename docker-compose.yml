@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: app
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - database
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
+
+    networks:
+      - rightPlace-network
+  
+  database:
+    container_name: database
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: app_db
+      POSTGRES_USER: dev_user
+      POSTGRES_PASSWORD: dev_pwd
+    ports:
+      - "5432:5432"
+    networks:
+      - rightPlace-network
+    volumes:
+      - database:/var/lib/postgresql/data:rw
+
+networks:
+  rightPlace-network:
+    driver: bridge
+
+volumes:
+  database:

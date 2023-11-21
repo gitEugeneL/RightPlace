@@ -2,10 +2,9 @@ using Domain.Common;
 
 namespace Domain.Entities;
 
-public sealed class RefreshToken : BaseEntity
+public sealed class RefreshToken : BaseAuditableEntity
 {
     public required string Token { get; set; }
-    public DateTime CreatedDate { get; set; }
     public DateTime Expires { get; set; }
     
     // relations ----------------------------------------------

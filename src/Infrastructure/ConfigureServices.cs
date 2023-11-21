@@ -20,9 +20,12 @@ public static class ConfigureServices
         // Add DB connection -----------------------------------------------------------------------
         services.AddDbContext<ApplicationDbContext>(option =>
         {
-            // option.UseNpgsql(builder.Configuration.GetConnectionString("PgSQLConnection"));
-            option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
+            option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
+            // option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
         });
+        
+        ApplicationDbContextInitializer
+            .Init(services.BuildServiceProvider().GetRequiredService<ApplicationDbContext>());
         
         return services;
     }

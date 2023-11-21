@@ -27,7 +27,7 @@ public class AuthenticationService : IAuthenticationService
         
         if (user.RefreshTokens.Count >= 5) // each user can only have 5  refresh tokens
         {
-            var oldestToken = user.RefreshTokens.OrderBy(rt => rt.CreatedDate).First();
+            var oldestToken = user.RefreshTokens.OrderBy(rt => rt.Created).First();
             user.RefreshTokens.Remove(oldestToken);
         }
         

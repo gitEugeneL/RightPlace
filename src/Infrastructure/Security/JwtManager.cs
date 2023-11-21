@@ -33,7 +33,7 @@ public sealed class JwtManager : IJwtManager
         var descriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
-            Expires = DateTime.Now.AddMinutes(
+            Expires = DateTime.UtcNow.AddMinutes(
                 int.Parse(_configuration.GetSection("Authentication:TokenLifetimeMin").Value!)),
             SigningCredentials = credentials
         };
@@ -48,7 +48,7 @@ public sealed class JwtManager : IJwtManager
         return new RefreshToken
         {
             Token = Convert.ToBase64String(RandomNumberGenerator.GetBytes(256)),
-            Expires = DateTime.Now.AddDays(
+            Expires = DateTime.UtcNow.AddDays(
                 int.Parse(_configuration.GetSection("Authentication:RefreshTokenLifetimeDays").Value!)),
             User = user
         };

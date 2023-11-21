@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
-ENV ASPNETCORE_ENVIRONMENT=Development
 WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
@@ -25,5 +24,4 @@ FROM base AS runtime
 WORKDIR /app
 
 COPY --from=publish /app/publish .
-RUN ls -l
 ENTRYPOINT ["dotnet", "Api.dll"]
