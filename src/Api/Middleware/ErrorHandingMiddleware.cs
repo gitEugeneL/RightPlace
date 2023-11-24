@@ -15,6 +15,11 @@ public class ErrorHandingMiddleware : IMiddleware
             context.Response.StatusCode = StatusCodes.Status401Unauthorized;
             await context.Response.WriteAsync(exception.Message);
         }
+        catch (AccessDeniedException exception)
+        {
+            context.Response.StatusCode = StatusCodes.Status403Forbidden;
+            await context.Response.WriteAsync(exception.Message);
+        }
         catch (NotFoundException exception)
         {
             context.Response.StatusCode = StatusCodes.Status404NotFound;
