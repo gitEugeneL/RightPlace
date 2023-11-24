@@ -1,12 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using MediatR;
 
-namespace Application.Common.Models.DTOs.User;
+namespace Application.Users.Commands.CreateUser;
 
-public record UserRequestDto
+public record CreateUserCommand : IRequest<UserResponse> 
 {
     [Required]
     [EmailAddress]
-    public required string Email { get; set; }
+    public required string Email { get; init; }
     
     [Required]
     [MinLength(8)]
@@ -15,5 +16,5 @@ public record UserRequestDto
         @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!$%@#£€*?&]+$", 
         ErrorMessage = "The password must contain at least one letter, one special character, and one digit.")
     ]
-    public required string Password { get; set; } 
+    public required string Password { get; init; }
 }

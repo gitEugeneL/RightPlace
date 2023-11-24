@@ -13,38 +13,39 @@ public class UserRepository : IUserRepository
         _dataContext = dataContext;
     }
 
-    public async Task<User> CreateUserAsync(User user)
+    public async Task<User> CreateUserAsync(User user, CancellationToken cancellationToken)
     {
-        await _dataContext.Users.AddAsync(user);
-        await _dataContext.SaveChangesAsync();
+        await _dataContext.Users.AddAsync(user, cancellationToken);
+        await _dataContext.SaveChangesAsync(cancellationToken);
         return user;
     }
 
-    public async Task UpdateUserAsync(User user)
+    public async Task UpdateUserAsync(User user, CancellationToken cancellationToken)
     {
         _dataContext.Users.Update(user);
-        await _dataContext.SaveChangesAsync();
+        await _dataContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<User?> FindUserByEmailAsync(string email)
+    public async Task<User?> FindUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _dataContext.Users
             .Include(u => u.Role)
             .Include(u => u.RefreshTokens)
-            .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
+            .FirstOrDefaultAsync(u => u.Email.ToLower() == email.ToLower(), cancellationToken);
     }
-
-    public async Task<User?> FindUserByRefreshTokenAsync(string refreshToken)
+    
+    public async Task<User?> FindUserByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
     {
         return await _dataContext.Users
             .Include(u => u.RefreshTokens)
             .Include(u => u.Role)
-            .FirstOrDefaultAsync(u => u.RefreshTokens.Any(rt => rt.Token == refreshToken));
+            .FirstOrDefaultAsync(u => u.RefreshTokens
+                .Any(rt => rt.Token == refreshToken), cancellationToken);
     }
-
-    public async Task<bool> UserExistAsync(string email)
+    
+    public async Task<bool> UserExistByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _dataContext.Users
-            .AnyAsync(u => u.Email.ToLower() == email.ToLower());
+            .AnyAsync(u => u.Email.ToLower() == email.ToLower(), cancellationToken);
     }
 }

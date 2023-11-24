@@ -10,20 +10,23 @@ namespace Infrastructure;
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
+        IConfiguration configuration)
     {
-        services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IJwtManager, JwtManager>();
+        services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddScoped<IJwtManager, JwtManager>();
         
-        // Add DB connection -----------------------------------------------------------------------
+        // Db connection config --------------------------------------------------------------------
         services.AddDbContext<ApplicationDbContext>(option =>
         {
-            option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
-            // option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
+            // option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
+            option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
         });
         
+        // Db initializer config -------------------------------------------------------------------
         ApplicationDbContextInitializer
             .Init(services.BuildServiceProvider().GetRequiredService<ApplicationDbContext>());
         

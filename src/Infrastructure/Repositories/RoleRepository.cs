@@ -13,8 +13,8 @@ public class RoleRepository : IRoleRepository
         _dataContext = dataContext;
     }
     
-    public async Task<Role?> GetRoleByValueAsync(string value)
+    public async Task<Role?> GetRoleByValueAsync(string value, CancellationToken cancellationToken)
     {
-        return await _dataContext.Roles.FirstOrDefaultAsync(r => r.Value == value);
+        return await _dataContext.Roles.FirstOrDefaultAsync(r => r.Value == value, cancellationToken);
     }
 }
