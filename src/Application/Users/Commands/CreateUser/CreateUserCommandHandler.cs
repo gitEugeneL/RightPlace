@@ -36,7 +36,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserR
                 PasswordHash = hash,
                 PasswordSalt = salt,
                 Role = await _roleRepository
-                    .GetRoleByValueAsync("ROLE_USER", cancellationToken) ?? new Role { Value = "ROLE_USER" } // todo seed default role
+                    .GetRoleByValueAsync("ROLE_USER", cancellationToken) ?? new Role { Value = "ROLE_USER" }
             },
             cancellationToken
         );
