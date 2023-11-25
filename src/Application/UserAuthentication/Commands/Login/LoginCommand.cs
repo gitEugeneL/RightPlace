@@ -3,7 +3,7 @@ using MediatR;
 
 namespace Application.UserAuthentication.Commands.Login;
 
-public class LoginCommand : IRequest<AuthenticationResponse>
+public record LoginCommand : IRequest<AuthenticationResponse>
 {
     [Required]
     [EmailAddress]

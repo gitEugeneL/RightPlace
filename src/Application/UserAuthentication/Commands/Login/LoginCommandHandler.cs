@@ -1,9 +1,7 @@
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.Users;
 using Domain.Entities;
-using MapsterMapper;
 using MediatR;
 
 namespace Application.UserAuthentication.Commands.Login;
@@ -13,15 +11,13 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationR
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtManager _jwtManager;
     private readonly IUserRepository _userRepository;
-    private readonly IMapper _mapper;
     
     public LoginCommandHandler(
-        IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtManager jwtManager, IMapper mapper)
+        IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtManager jwtManager)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
         _jwtManager = jwtManager;
-        _mapper = mapper;
     }
     
     public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
