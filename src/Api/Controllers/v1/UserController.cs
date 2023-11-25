@@ -2,6 +2,7 @@ using Application.Common.Models;
 using Application.Users;
 using Application.Users.Commands.CreateUser;
 using Application.Users.Queries.GetAllUsers;
+using Application.Users.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,9 +25,17 @@ public class UserController : BaseController
     [Authorize]
     [HttpGet]
     [ProducesResponseType(typeof(PaginatedList<UserResponse>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<PaginatedList<UserResponse>>> GetAll([FromQuery] GetAllUsersWithPagination query)
+    public async Task<ActionResult<PaginatedList<UserResponse>>> GetAll([FromQuery] GetAllUsersQueryWithPagination query)
     {
         var result = await Mediator.Send(query);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult<UserResponse>> GetOne(Guid id)
+    {
+        var result = await Mediator.Send(new GetUserQuery(id));
         return Ok(result);
     }
 }

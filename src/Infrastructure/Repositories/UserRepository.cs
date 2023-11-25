@@ -64,4 +64,9 @@ public class UserRepository : IUserRepository
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
+
+    public async Task<User?> GetUserById(Guid id)
+    {
+        return await _dataContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+    }
 }
