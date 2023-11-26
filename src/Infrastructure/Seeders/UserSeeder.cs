@@ -26,7 +26,7 @@ public static class UserSeeder
         passwordHasher.CreatePasswordHash("defaultPassword1@", out var hash, out var salt);
         
         var role = new Role { Value = "ROLE_USER" };
-
+        
         return new List<User>
         {
             new User
@@ -38,7 +38,7 @@ public static class UserSeeder
                 FirstName = "defaultFirstName",
                 LastName = "defaultLastName",
                 Phone = "+48258741369",
-                DateOfBirth = new DateTime(1859, 12, 31)
+                DateOfBirth = new DateOnly(1859, 12, 31)
             },
 
             new User
@@ -50,7 +50,7 @@ public static class UserSeeder
                 FirstName = "default1FirstName",
                 LastName = "default1LastName",
                 Phone = "+48789654123",
-                DateOfBirth = new DateTime(2023, 12, 20)
+                DateOfBirth = new DateOnly(2023, 12, 20)
             },
         };
     }

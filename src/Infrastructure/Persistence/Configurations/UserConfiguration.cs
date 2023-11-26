@@ -31,10 +31,6 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
         
-        builder.Property(refreshToken => refreshToken.Updated)
-            .ValueGeneratedOnUpdate()
-            .Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Save);
-        
         // many to one relation ------------------------------------------------------
         builder.HasMany<RefreshToken>(user => user.RefreshTokens)
             .WithOne(refreshToken => refreshToken.User)

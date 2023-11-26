@@ -11,7 +11,7 @@ public sealed class User : BaseAuditableEntity
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public string? Phone { get; set; }
-    public DateTime? DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
     
     // relations ---------------------------------------------------
     public required Role Role { get; set; }
