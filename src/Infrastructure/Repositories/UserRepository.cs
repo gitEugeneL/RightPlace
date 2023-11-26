@@ -27,6 +27,18 @@ public class UserRepository : IUserRepository
         await _dataContext.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task DeleteUserAsync(User user, CancellationToken cancellationToken)
+    {
+        _dataContext.Users.Remove(user);
+        await _dataContext.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<User?> FindUserByIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _dataContext.Users
+            .FirstOrDefaultAsync(u => u.Id == id, cancellationToken);
+    }
+    
     public async Task<User?> FindUserByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _dataContext.Users

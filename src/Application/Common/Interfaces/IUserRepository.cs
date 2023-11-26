@@ -11,8 +11,12 @@ public interface IUserRepository
     Task<IEnumerable<User>> GetUsersWithPaginationAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
     
     Task UpdateUserAsync(User user, CancellationToken cancellationToken);
+
+    Task DeleteUserAsync(User user, CancellationToken cancellationToken);
     
     Task<User> CreateUserAsync(User user, CancellationToken cancellationToken);
+
+    Task<User?> FindUserByIdAsync(Guid id, CancellationToken cancellationToken);
     
     Task<User?> FindUserByEmailAsync(string email, CancellationToken cancellationToken);
     

@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,5 +11,10 @@ public class BaseController : ControllerBase
     
     public BaseController(IMediator mediator) {
         Mediator = mediator;
+    }
+
+    protected string? CurrentUserId()
+    {
+        return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
     }
 }

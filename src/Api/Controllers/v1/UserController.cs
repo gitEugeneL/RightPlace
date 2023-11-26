@@ -1,6 +1,8 @@
 using Application.Common.Models;
 using Application.Users;
 using Application.Users.Commands.CreateUser;
+using Application.Users.Commands.DeleteUser;
+using Application.Users.Commands.UpdateUser;
 using Application.Users.Queries.GetAllUsers;
 using Application.Users.Queries.GetUser;
 using MediatR;
@@ -37,5 +39,32 @@ public class UserController : BaseController
     {
         var result = await Mediator.Send(new GetUserQuery(id));
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+    public async Task<ActionResult<UserResponse>> Update([FromBody] UpdateUserCommand command)
+    {
+        var id = CurrentUserId();
+        if (id is null)
+            return BadRequest();
+
+        command.SetCurrentUserId(id);
+        var result = await Mediator.Send(command);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpDelete]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> Delete()
+    {
+        var id = CurrentUserId();
+        if (id is null)
+            return BadRequest();
+        
+        await Mediator.Send(new DeleteUserCommand().SetCurrentUserId(id));
+        return Ok();
     }
 }
