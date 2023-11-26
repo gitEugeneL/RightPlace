@@ -1,5 +1,6 @@
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
+using Domain.Entities;
 using MapsterMapper;
 using MediatR;
 
@@ -18,9 +19,8 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse>
     
     public async Task<UserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserById(request.Id);
-        if (user is null)
-            throw new NotFoundException(nameof(user), request.Id);
+        User user = await _userRepository.GetUserById(request.Id)
+                   ?? throw new NotFoundException(nameof(user), request.Id);
         
         return _mapper.Map<UserResponse>(user);
     }

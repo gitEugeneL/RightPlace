@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Application.Users.Queries.GetAllUsers;
 
-public class GetAllUsersQueryHandler :  IRequestHandler<GetAllUsersWithPagination,  PaginatedList<UserResponse>>
+public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQueryWithPagination, PaginatedList<UserResponse>>
 {
     private readonly IMapper _mapper;
     private readonly IUserRepository _userRepository;
@@ -17,7 +17,7 @@ public class GetAllUsersQueryHandler :  IRequestHandler<GetAllUsersWithPaginatio
     }
     
     public async Task<PaginatedList<UserResponse>> 
-        Handle(GetAllUsersWithPagination request, CancellationToken cancellationToken)
+        Handle(GetAllUsersQueryWithPagination request, CancellationToken cancellationToken)
     {
         var users = await _userRepository
             .GetUsersWithPaginationAsync(request.PageNumber, request.PageSize, cancellationToken);
