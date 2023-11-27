@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
@@ -35,5 +34,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasMany<RefreshToken>(user => user.RefreshTokens)
             .WithOne(refreshToken => refreshToken.User)
             .HasForeignKey(refreshToken => refreshToken.UserId); 
+        
+        // many to one relation ------------------------------------------------------
+        builder.HasMany<Advertisement>(user => user.Advertisements)
+            .WithOne(advertisement => advertisement.User)
+            .HasForeignKey(advertisement => advertisement.UserId);
     }
 }

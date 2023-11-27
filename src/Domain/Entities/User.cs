@@ -18,4 +18,6 @@ public sealed class User : BaseAuditableEntity
     public Guid RoleId { get; set; }
 
     public List<RefreshToken> RefreshTokens { get; set; } = new();
+
+    public List<Advertisement> Advertisements { get; set; } = new();
 }
