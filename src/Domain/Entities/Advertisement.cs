@@ -20,4 +20,7 @@ public class Advertisement : BaseAuditableEntity
 
     public Address? Address { get; set; }
     public Guid? AddressId { get; set; }
+
+    public Information? Information { get; set; }
+    public Guid? InformationId { get; set; } 
 }

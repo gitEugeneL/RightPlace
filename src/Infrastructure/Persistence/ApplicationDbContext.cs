@@ -18,6 +18,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public required DbSet<Advertisement> Advertisements { get; set; }
     public required DbSet<Category> Categories { get; set; }
     public required DbSet<Type> Types { get; set; }
+    public required DbSet<Information> Information { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -28,6 +29,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         builder.ApplyConfiguration(new AdvertisementConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new TypesConfiguration());
+        builder.ApplyConfiguration(new InformationConfiguration());
         
         base.OnModelCreating(builder);
     }
