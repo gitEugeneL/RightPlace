@@ -23,7 +23,7 @@ public sealed class JwtManager : IJwtManager
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Email, user.Email),
-            new(ClaimTypes.Role, user.Role.Value)
+            new(ClaimTypes.Role, user.Role.Value.ToString())
         };
 
         var settings = _configuration.GetSection("Authentication:Key").Value!;

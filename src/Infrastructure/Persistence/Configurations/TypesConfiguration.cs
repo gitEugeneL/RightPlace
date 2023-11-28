@@ -14,7 +14,8 @@ public class TypesConfiguration : IEntityTypeConfiguration<Type>
 
         builder.Property(type => type.Name)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .HasConversion<string>();
         
         // many to one ----------------------------------------------
         builder.HasMany<Advertisement>(type => type.Advertisements)

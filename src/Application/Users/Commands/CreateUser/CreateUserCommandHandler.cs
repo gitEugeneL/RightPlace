@@ -1,6 +1,7 @@
 using Application.Common.Exceptions;
 using Application.Common.Interfaces;
 using Domain.Entities;
+using Domain.Enums;
 using MapsterMapper;
 using MediatR;
 
@@ -36,7 +37,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, UserR
                 PasswordHash = hash,
                 PasswordSalt = salt,
                 Role = await _roleRepository
-                    .GetRoleByValueAsync("ROLE_USER", cancellationToken) ?? new Role { Value = "ROLE_USER" }
+                    .GetRoleByValueAsync(RoleName.RoleUser, cancellationToken) ?? new Role { Value = RoleName.RoleUser }
             },
             cancellationToken
         );

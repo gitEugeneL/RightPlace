@@ -13,7 +13,8 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
         
         builder.Property(role => role.Value)
             .IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(50)
+            .HasConversion<string>();
         
         // many to one relation ---------------------------------------
         builder.HasMany<User>(role => role.Users)

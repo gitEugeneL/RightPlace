@@ -1,8 +1,9 @@
 using Domain.Entities;
+using Domain.Enums;
 
 namespace Application.Common.Interfaces;
 
 public interface IRoleRepository
 {
-    Task<Role?> GetRoleByValueAsync(string value, CancellationToken cancellationToken); 
+    Task<Role?> GetRoleByValueAsync(RoleName value, CancellationToken cancellationToken); 
 }

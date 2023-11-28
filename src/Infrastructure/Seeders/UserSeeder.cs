@@ -1,4 +1,5 @@
 using Domain.Entities;
+using Domain.Enums;
 using Infrastructure.Persistence;
 using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ public static class UserSeeder
         var passwordHasher = new PasswordHasher();
         passwordHasher.CreatePasswordHash("defaultPassword1@", out var hash, out var salt);
         
-        var role = new Role { Value = "ROLE_USER" };
+        var role = new Role { Value = RoleName.RoleUser };
         
         return new List<User>
         {
