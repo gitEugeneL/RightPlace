@@ -10,5 +10,6 @@ public static class ApplicationDbContextInitializer
         
         // seed data
         UserSeeder.Seed(context);
+        CategorySeeder.Seed(context);
     }
 }
