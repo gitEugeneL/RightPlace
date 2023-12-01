@@ -37,6 +37,7 @@ public class InformationConfiguration : IEntityTypeConfiguration<Information>
         
         // one to one -------------------------------------------------------------------
         builder.HasOne<Advertisement>(information => information.Advertisement)
-            .WithOne(advertisement => advertisement.Information);
+            .WithOne(advertisement => advertisement.Information)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

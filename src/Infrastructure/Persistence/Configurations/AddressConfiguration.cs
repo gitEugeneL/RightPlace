@@ -33,6 +33,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         // one to one -------------------------------------------------------------------
         builder.HasOne<Advertisement>(address => address.Advertisement)
-            .WithOne(advertisement => advertisement.Address);
+            .WithOne(advertisement => advertisement.Address)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
