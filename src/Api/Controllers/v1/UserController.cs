@@ -1,10 +1,10 @@
 using Application.Common.Models;
-using Application.Users;
-using Application.Users.Commands.CreateUser;
-using Application.Users.Commands.DeleteUser;
-using Application.Users.Commands.UpdateUser;
-using Application.Users.Queries.GetAllUsers;
-using Application.Users.Queries.GetUser;
+using Application.Operations.Users;
+using Application.Operations.Users.Commands.CreateUser;
+using Application.Operations.Users.Commands.DeleteUser;
+using Application.Operations.Users.Commands.UpdateUser;
+using Application.Operations.Users.Queries.GetAllUsers;
+using Application.Operations.Users.Queries.GetUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

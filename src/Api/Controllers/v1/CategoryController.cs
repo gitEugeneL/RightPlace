@@ -1,5 +1,5 @@
-using Application.Categories;
-using Application.Categories.Queries.GetAllCategories;
+using Application.Operations.Categories;
+using Application.Operations.Categories.Queries.GetAllCategories;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

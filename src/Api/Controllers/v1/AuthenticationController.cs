@@ -1,8 +1,8 @@
 using Api.Utils;
 using Application.Common.Models;
-using Application.UserAuthentication.Commands.Login;
-using Application.UserAuthentication.Commands.Logout;
-using Application.UserAuthentication.Commands.Refresh;
+using Application.Operations.Authentications.Commands.Login;
+using Application.Operations.Authentications.Commands.Logout;
+using Application.Operations.Authentications.Commands.Refresh;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

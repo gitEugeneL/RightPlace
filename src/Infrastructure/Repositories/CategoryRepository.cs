@@ -14,7 +14,7 @@ public class CategoryRepository : ICategoryRepository
         _dataContext = dataContext;
     }
 
-    public async Task<IEnumerable<Category>> GetAllCategories(CancellationToken cancellationToken)
+    public async Task<IEnumerable<Category>> GetAllCategoriesAsync(CancellationToken cancellationToken)
     {
         return await _dataContext.Categories
             .OrderBy(c => c.Name)

@@ -55,7 +55,7 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.RefreshTokens
                 .Any(rt => rt.Token == refreshToken), cancellationToken);
     }
-
+    
     public async Task<bool> UserExistByEmailAsync(string email, CancellationToken cancellationToken)
     {
         return await _dataContext.Users
@@ -75,10 +75,5 @@ public class UserRepository : IUserRepository
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync(cancellationToken);
-    }
-
-    public async Task<User?> GetUserById(Guid id)
-    {
-        return await _dataContext.Users.FirstOrDefaultAsync(user => user.Id == id);
     }
 }
