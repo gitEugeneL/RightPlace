@@ -8,8 +8,9 @@ public static class ApplicationDbContextInitializer
     {
         context.Database.EnsureCreated();
         
-        // seed data
+        // seed data --------------------------------
         UserSeeder.Seed(context);
         CategorySeeder.Seed(context);
+        TypeSeeder.Seed(context);
     }
 }
