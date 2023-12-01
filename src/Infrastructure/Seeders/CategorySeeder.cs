@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Seeders;
 
@@ -8,10 +7,6 @@ public static class CategorySeeder
 {
     public static void Seed(ApplicationDbContext context)
     {
-        if (!context.Database.CanConnect()) 
-            return;
-        if (!context.Database.IsRelational()) 
-            return;
         if (context.Categories.Any()) 
             return;
         var categories = GetCategories();
@@ -31,10 +26,10 @@ public static class CategorySeeder
     {
         return new List<Category>
         {
-            new Category { Name = CategoryName.Room.ToString() },
-            new Category { Name = CategoryName.Apartment.ToString() },
-            new Category { Name = CategoryName.House.ToString() },
-            new Category { Name = CategoryName.CommercialSpace.ToString() },
+            new() { Name = CategoryName.Room.ToString() },
+            new() { Name = CategoryName.Apartment.ToString() },
+            new() { Name = CategoryName.House.ToString() },
+            new() { Name = CategoryName.CommercialSpace.ToString() },
         };
     }
 }

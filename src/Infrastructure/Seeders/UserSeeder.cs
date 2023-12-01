@@ -2,7 +2,6 @@ using Domain.Entities;
 using Domain.Enums;
 using Infrastructure.Persistence;
 using Infrastructure.Security;
-using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Seeders;
 
@@ -10,10 +9,6 @@ public static class UserSeeder
 {
     public static void Seed(ApplicationDbContext context)
     {
-        if (!context.Database.CanConnect()) 
-            return;
-        if (!context.Database.IsRelational()) 
-            return;
         if (context.Roles.Any() && context.Users.Any()) 
             return;
         var users = GetUsers();
@@ -30,7 +25,7 @@ public static class UserSeeder
         
         return new List<User>
         {
-            new User
+            new()
             {
                 Email = "default@user.com",
                 PasswordHash = hash,
@@ -42,7 +37,7 @@ public static class UserSeeder
                 DateOfBirth = new DateOnly(1859, 12, 31)
             },
 
-            new User
+            new()
             {
                 Email = "default1@user.com",
                 PasswordHash = hash,

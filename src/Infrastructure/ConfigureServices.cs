@@ -16,6 +16,9 @@ public static class ConfigureServices
         services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
+        services.AddScoped<IAdvertisementRepository, AdvertisementRepository>();
+        services.AddScoped<ICategoryRepository, CategoryRepository>();
+        services.AddScoped<ITypeRepository, TypeRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtManager, JwtManager>();
         
