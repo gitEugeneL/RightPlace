@@ -35,6 +35,7 @@ public class UserController : BaseController
 
     [Authorize]
     [HttpGet("{id:guid}")]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<UserResponse>> GetOne(Guid id)
     {
         var result = await Mediator.Send(new GetUserQuery(id));

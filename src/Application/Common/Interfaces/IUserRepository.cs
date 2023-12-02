@@ -4,11 +4,10 @@ namespace Application.Common.Interfaces;
 
 public interface IUserRepository
 {
-    int CountAllUsers();
-    
     Task<bool> UserExistByEmailAsync(string email, CancellationToken cancellationToken);
 
-    Task<IEnumerable<User>> GetUsersWithPaginationAsync(int pageNumber, int pageSize, CancellationToken cancellationToken);
+    Task<(IEnumerable<User> List, int Count)> GetUsersWithPaginationAsync(int pageNumber, int pageSize,
+        CancellationToken cancellationToken);
     
     Task UpdateUserAsync(User user, CancellationToken cancellationToken);
 

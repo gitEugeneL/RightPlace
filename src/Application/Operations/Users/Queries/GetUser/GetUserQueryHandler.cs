@@ -19,8 +19,8 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse>
     
     public async Task<UserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
-        User user = await _userRepository.FindUserByIdAsync(request.Id, cancellationToken)
-                   ?? throw new NotFoundException(nameof(user), request.Id);
+        var user = await _userRepository.FindUserByIdAsync(request.Id, cancellationToken)
+                   ?? throw new NotFoundException(nameof(User), request.Id);
         
         return _mapper.Map<UserResponse>(user);
     }

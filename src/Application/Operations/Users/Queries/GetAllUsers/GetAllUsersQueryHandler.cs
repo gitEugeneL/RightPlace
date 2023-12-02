@@ -19,11 +19,9 @@ public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQueryWithPagin
     public async Task<PaginatedList<UserResponse>> 
         Handle(GetAllUsersQueryWithPagination request, CancellationToken cancellationToken)
     {
-        var users = await _userRepository
+        var (users, count) = await _userRepository
             .GetUsersWithPaginationAsync(request.PageNumber, request.PageSize, cancellationToken);
-        
-        var count = _userRepository.CountAllUsers();
-        
+
         var userResponses = _mapper.Map<List<UserResponse>>(users); 
         return new PaginatedList<UserResponse>(userResponses, count, request.PageNumber, request.PageSize);
     }

@@ -62,18 +62,19 @@ public class UserRepository : IUserRepository
             .AnyAsync(u => u.Email.ToLower() == email.ToLower(), cancellationToken);
     }
     
-    public int CountAllUsers()
-    {
-        return _dataContext.Users.Count();
-    }
-    
-    public async Task<IEnumerable<User>> 
+    public async Task<(IEnumerable<User> List, int Count)> 
         GetUsersWithPaginationAsync(int pageNumber, int pageSize, CancellationToken cancellationToken)
     {
-        return await _dataContext.Users
+        var query = _dataContext.Users;
+
+        var count = await query.CountAsync(cancellationToken);
+        
+        var list = await query
             .OrderBy(user => user.LastName)
             .Skip(pageSize * (pageNumber - 1))
             .Take(pageSize)
             .ToListAsync(cancellationToken);
+
+        return (list, count);
     }
 }
