@@ -13,5 +13,5 @@ public class Information : BaseAuditableEntity
     public bool Balcony { get; set; } = false;
     
     // relations ---------------------------------------------
-    public required Advertisement Advertisement { get; set; }
+    public required Advert Advert { get; set; }
 }

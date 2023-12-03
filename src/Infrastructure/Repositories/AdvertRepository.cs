@@ -5,51 +5,51 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class AdvertisementRepository : IAdvertisementRepository
+public class AdvertRepository : IAdvertRepository
 {
     private readonly ApplicationDbContext _dataContext;
     
-    public AdvertisementRepository(ApplicationDbContext dataContext)
+    public AdvertRepository(ApplicationDbContext dataContext)
     {
         _dataContext = dataContext;
     }
 
     public async Task<bool> AdvertisementExistByTitleAsync(string title, CancellationToken cancellationToken)
     {
-        return await _dataContext.Advertisements
+        return await _dataContext.Adverts
             .AnyAsync(a => a.Title.ToLower() == title.ToLower(), cancellationToken);
     }
 
-    public async Task UpdateAdvertisementAsync(Advertisement advertisement, CancellationToken cancellationToken)
+    public async Task UpdateAdvertisementAsync(Advert advert, CancellationToken cancellationToken)
     {
-        _dataContext.Advertisements
-            .Update(advertisement);
+        _dataContext.Adverts
+            .Update(advert);
         await _dataContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task DeleteAdvertisementAsync(Advertisement advertisement, CancellationToken cancellationToken)
+    public async Task DeleteAdvertisementAsync(Advert advert, CancellationToken cancellationToken)
     {
-        _dataContext.Advertisements.Remove(advertisement);
+        _dataContext.Adverts.Remove(advert);
         await _dataContext.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<Advertisement> CreateAdvertisementAsync(Advertisement advertisement,
+    public async Task<Advert> CreateAdvertisementAsync(Advert advert,
         CancellationToken cancellationToken)
     {
-        await _dataContext.Advertisements
-            .AddAsync(advertisement, cancellationToken);
+        await _dataContext.Adverts
+            .AddAsync(advert, cancellationToken);
         await _dataContext
             .SaveChangesAsync(cancellationToken);
-        return advertisement;
+        return advert;
     }
 
-    public async Task<Advertisement?> FindAdvertisementByIdAsync(Guid id, CancellationToken cancellationToken)
+    public async Task<Advert?> FindAdvertisementByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        return await _dataContext.Advertisements
+        return await _dataContext.Adverts
             .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
     }
     
-    public async Task<(IEnumerable<Advertisement> List, int Count)> GetAdvertisementWithPaginationAsync(
+    public async Task<(IEnumerable<Advert> List, int Count)> GetAdvertisementWithPaginationAsync(
             CancellationToken cancellationToken,
             int pageNumber, 
             int pageSize, 
@@ -61,7 +61,7 @@ public class AdvertisementRepository : IAdvertisementRepository
             Guid? ownerId = null
         )
     {
-        var query = _dataContext.Advertisements
+        var query = _dataContext.Adverts
             .Include(a => a.Category)
             .Include(a => a.Type)
             .Include(a => a.User)

@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public required DbSet<Role> Roles { get; set; }
     public required DbSet<RefreshToken> RefreshTokens { get; set; }
     public required DbSet<Address> Addresses { get; set; }
-    public required DbSet<Advertisement> Advertisements { get; set; }
+    public required DbSet<Advert> Adverts { get; set; }
     public required DbSet<Category> Categories { get; set; }
     public required DbSet<Type> Types { get; set; }
     public required DbSet<Information> Information { get; set; }
@@ -26,7 +26,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         builder.ApplyConfiguration(new RoleConfiguration());
         builder.ApplyConfiguration(new RefreshTokenConfiguration());
         builder.ApplyConfiguration(new AddressConfiguration());
-        builder.ApplyConfiguration(new AdvertisementConfiguration());
+        builder.ApplyConfiguration(new AdvertConfiguration());
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new TypesConfiguration());
         builder.ApplyConfiguration(new InformationConfiguration());

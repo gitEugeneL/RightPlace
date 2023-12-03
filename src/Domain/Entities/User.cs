@@ -19,5 +19,5 @@ public sealed class User : BaseAuditableEntity
 
     public List<RefreshToken> RefreshTokens { get; set; } = new();
 
-    public List<Advertisement> Advertisements { get; set; } = new();
+    public List<Advert> Adverts { get; set; } = new();
 }

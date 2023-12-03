@@ -5,7 +5,7 @@ using Type = Domain.Entities.Type;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class TypesConfiguration : IEntityTypeConfiguration<Type>
+internal class TypesConfiguration : IEntityTypeConfiguration<Type>
 {
     public void Configure(EntityTypeBuilder<Type> builder)
     {
@@ -18,8 +18,8 @@ public class TypesConfiguration : IEntityTypeConfiguration<Type>
             .HasConversion<string>();
         
         // many to one ----------------------------------------------
-        builder.HasMany<Advertisement>(type => type.Advertisements)
-            .WithOne(advertisement => advertisement.Type)
-            .HasForeignKey(advertisement => advertisement.TypeId);
+        builder.HasMany<Advert>(type => type.Adverts)
+            .WithOne(advert => advert.Type)
+            .HasForeignKey(advert => advert.TypeId);
     }
 }

@@ -1,13 +1,13 @@
 using Domain.Entities;
 using Mapster;
 
-namespace Application.Operations.Advertisements;
+namespace Application.Operations.Adverts;
 
-public class AdvertisementMappingConfig : IRegister
+public class AdvertMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig<Advertisement, AdvertisementResponse>()
+        config.NewConfig<Advert, AdvertsResponse>()
             .Map(dest => dest.Id, src => src.Id)
             .Map(dest => dest.Title, src => src.Title)
             .Map(dest => dest.Description, src => src.Description)

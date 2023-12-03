@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class AdvertisementConfiguration : IEntityTypeConfiguration<Advertisement>
+internal class AdvertConfiguration : IEntityTypeConfiguration<Advert>
 {
-    public void Configure(EntityTypeBuilder<Advertisement> builder)
+    public void Configure(EntityTypeBuilder<Advert> builder)
     {
         builder.HasIndex(advertisement => advertisement.Title)
             .IsUnique();

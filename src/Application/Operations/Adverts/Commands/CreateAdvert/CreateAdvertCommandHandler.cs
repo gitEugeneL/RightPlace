@@ -5,32 +5,32 @@ using MapsterMapper;
 using MediatR;
 using Type = Domain.Entities.Type;
 
-namespace Application.Operations.Advertisements.Commands.CreateAdvertisement;
+namespace Application.Operations.Adverts.Commands.CreateAdvert;
 
-public class CreateAdvertisementCommandHandler : IRequestHandler<CreateAdvertisementCommand, AdvertisementResponse>
+public class CreateAdvertCommandHandler : IRequestHandler<CreateAdvertCommand, AdvertsResponse>
 {
     private readonly IMapper _mapper;
-    private readonly IAdvertisementRepository _advertisementRepository;
+    private readonly IAdvertRepository _advertRepository;
     private readonly IUserRepository _userRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly ITypeRepository _typeRepository;
     
-    public CreateAdvertisementCommandHandler(
-        IAdvertisementRepository advertisementRepository, IUserRepository userRepository,
+    public CreateAdvertCommandHandler(
+        IAdvertRepository advertRepository, IUserRepository userRepository,
         ICategoryRepository categoryRepository, ITypeRepository typeRepository, IMapper mapper)
     {
         _userRepository = userRepository;
-        _advertisementRepository = advertisementRepository;
+        _advertRepository = advertRepository;
         _categoryRepository = categoryRepository;
         _typeRepository = typeRepository;
         _mapper = mapper;
     }
     
-    public async Task<AdvertisementResponse> 
-        Handle(CreateAdvertisementCommand request, CancellationToken cancellationToken)
+    public async Task<AdvertsResponse> 
+        Handle(CreateAdvertCommand request, CancellationToken cancellationToken)
     {
-        if (await _advertisementRepository.AdvertisementExistByTitleAsync(request.Title, cancellationToken))
-            throw new AlreadyExistException(nameof(Advertisement), request.Title);
+        if (await _advertRepository.AdvertisementExistByTitleAsync(request.Title, cancellationToken))
+            throw new AlreadyExistException(nameof(Advert), request.Title);
         
         var user = await _userRepository.FindUserByIdAsync(request.CurrentUserId, cancellationToken)
                    ?? throw new NotFoundException(nameof(User), request.CurrentUserId);
@@ -41,8 +41,8 @@ public class CreateAdvertisementCommandHandler : IRequestHandler<CreateAdvertise
         var type = await _typeRepository.FindTypeByIdAsync(request.TypeId, cancellationToken)
                     ?? throw new NotFoundException(nameof(Type), request.TypeId);
         
-        var advertisement = await _advertisementRepository.CreateAdvertisementAsync(
-            new Advertisement
+        var advertisement = await _advertRepository.CreateAdvertisementAsync(
+            new Advert
             {
                 User = user,
                 Category = category,
@@ -54,6 +54,6 @@ public class CreateAdvertisementCommandHandler : IRequestHandler<CreateAdvertise
             cancellationToken
         );
 
-        return _mapper.Map<AdvertisementResponse>(advertisement);
+        return _mapper.Map<AdvertsResponse>(advertisement);
     }
 }

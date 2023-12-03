@@ -1,9 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 
-namespace Application.Operations.Advertisements.Commands.UpdateAdvertisement;
+namespace Application.Operations.Adverts.Commands.UpdateAdvert;
 
-public record UpdateAdvertisementCommand : IRequest<AdvertisementResponse>
+public record UpdateAdvertCommand : IRequest<AdvertsResponse>
 {
     public Guid CurrentUserId { get; private set; }
 

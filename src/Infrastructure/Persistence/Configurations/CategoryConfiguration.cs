@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class CategoryConfiguration : IEntityTypeConfiguration<Category>
+internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
 {
     public void Configure(EntityTypeBuilder<Category> builder)
     {
@@ -20,8 +20,8 @@ public class CategoryConfiguration : IEntityTypeConfiguration<Category>
             .HasMaxLength(250);
         
         // many to one ------------------------------------------------------------
-        builder.HasMany<Advertisement>(category => category.Advertisements)
-            .WithOne(advertisement => advertisement.Category)
-            .HasForeignKey(advertisement => advertisement.CategoryId);
+        builder.HasMany<Advert>(category => category.Adverts)
+            .WithOne(advert => advert.Category)
+            .HasForeignKey(advert => advert.CategoryId);
     }
 }

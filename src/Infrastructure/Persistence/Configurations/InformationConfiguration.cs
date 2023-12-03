@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class InformationConfiguration : IEntityTypeConfiguration<Information>
+internal class InformationConfiguration : IEntityTypeConfiguration<Information>
 {
     public void Configure(EntityTypeBuilder<Information> builder)
     {
@@ -36,8 +36,8 @@ public class InformationConfiguration : IEntityTypeConfiguration<Information>
             .HasMaxLength(5);
         
         // one to one -------------------------------------------------------------------
-        builder.HasOne<Advertisement>(information => information.Advertisement)
-            .WithOne(advertisement => advertisement.Information)
+        builder.HasOne<Advert>(information => information.Advert)
+            .WithOne(advert => advert.Information)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -9,5 +9,5 @@ public class Category : BaseEntity
     public string? Description { get; set; }
     
     // relations ---------------------------------------------------
-    public List<Advertisement> Advertisements { get; set; } = new();
+    public List<Advert> Adverts { get; set; } = new();
 }

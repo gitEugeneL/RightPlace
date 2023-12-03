@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using Application.Common.Models;
 using MediatR;
 
-namespace Application.Operations.Advertisements.Queries.GetAllAdvertisements;
+namespace Application.Operations.Adverts.Queries.GetAllAdverts;
 
-public record GetAllAdvertisementsQueryWithPagination : IRequest<PaginatedList<AdvertisementResponse>>
+public record GetAllAdvertsQueryWithPagination : IRequest<PaginatedList<AdvertsResponse>>
 {
     public Guid? CategoryId { get; init; }
     public Guid? TypeId { get; init; }

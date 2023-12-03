@@ -1,6 +1,6 @@
-namespace Application.Operations.Advertisements;
+namespace Application.Operations.Adverts;
 
-public record AdvertisementResponse(
+public record AdvertsResponse(
     Guid Id,
     string Title,
     string Description,

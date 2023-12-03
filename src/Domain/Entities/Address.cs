@@ -11,5 +11,5 @@ public class Address : BaseAuditableEntity
     public string? GpsPosition { get; set; } 
     
     // relations ---------------------------------------------------
-    public required Advertisement Advertisement { get; set; }
+    public required Advert Advert { get; set; }
 }

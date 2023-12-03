@@ -7,5 +7,5 @@ public class Type : BaseEntity
     public required string Name { get; set; }
     
     // relations ---------------------------------------------------
-    public List<Advertisement> Advertisements { get; set; } = new();
+    public List<Advert> Adverts { get; set; } = new();
 }
