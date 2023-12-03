@@ -17,13 +17,13 @@ public class DeleteAdvertCommandHandler : IRequestHandler<DeleteAdvertCommand, U
     public async Task<Unit> Handle(DeleteAdvertCommand request, CancellationToken cancellationToken)
     {
         var advertisement =
-            await _advertRepository.FindAdvertisementByIdAsync(request.AdvertisementId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Advert), request.AdvertisementId);
+            await _advertRepository.FindAdvertByIdAsync(request.AdvertId, cancellationToken)
+            ?? throw new NotFoundException(nameof(Advert), request.AdvertId);
 
         if (advertisement.UserId != request.CurrentUserId)
-            throw new AccessDeniedException(nameof(Advert), request.AdvertisementId);
+            throw new AccessDeniedException(nameof(Advert), request.AdvertId);
 
-        await _advertRepository.DeleteAdvertisementAsync(advertisement, cancellationToken);
+        await _advertRepository.DeleteAdvertAsync(advertisement, cancellationToken);
         return await Unit.Task;
     }
 }

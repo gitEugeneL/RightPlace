@@ -29,7 +29,7 @@ public class CreateAdvertCommandHandler : IRequestHandler<CreateAdvertCommand, A
     public async Task<AdvertsResponse> 
         Handle(CreateAdvertCommand request, CancellationToken cancellationToken)
     {
-        if (await _advertRepository.AdvertisementExistByTitleAsync(request.Title, cancellationToken))
+        if (await _advertRepository.AdvertExistByTitleAsync(request.Title, cancellationToken))
             throw new AlreadyExistException(nameof(Advert), request.Title);
         
         var user = await _userRepository.FindUserByIdAsync(request.CurrentUserId, cancellationToken)
@@ -41,7 +41,7 @@ public class CreateAdvertCommandHandler : IRequestHandler<CreateAdvertCommand, A
         var type = await _typeRepository.FindTypeByIdAsync(request.TypeId, cancellationToken)
                     ?? throw new NotFoundException(nameof(Type), request.TypeId);
         
-        var advertisement = await _advertRepository.CreateAdvertisementAsync(
+        var advertisement = await _advertRepository.CreateAdvertAsync(
             new Advert
             {
                 User = user,

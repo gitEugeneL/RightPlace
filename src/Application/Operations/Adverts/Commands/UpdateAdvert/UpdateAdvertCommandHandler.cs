@@ -20,16 +20,16 @@ public class UpdateAdvertCommandHandler : IRequestHandler<UpdateAdvertCommand, A
     public async Task<AdvertsResponse> Handle(UpdateAdvertCommand request, CancellationToken cancellationToken)
     {
         var advertisement =
-            await _advertRepository.FindAdvertisementByIdAsync(request.AdvertisementId, cancellationToken)
-            ?? throw new NotFoundException(nameof(Advert), request.AdvertisementId);
+            await _advertRepository.FindAdvertByIdAsync(request.AdvertId, cancellationToken)
+            ?? throw new NotFoundException(nameof(Advert), request.AdvertId);
 
         if (advertisement.UserId != request.CurrentUserId)
-            throw new AccessDeniedException(nameof(Advert), request.AdvertisementId);
+            throw new AccessDeniedException(nameof(Advert), request.AdvertId);
 
         advertisement.Description = request.Description ?? advertisement.Description;
         advertisement.Price = request.Price ?? advertisement.Price;
 
-        await _advertRepository.UpdateAdvertisementAsync(advertisement, cancellationToken);
+        await _advertRepository.UpdateAdvertAsync(advertisement, cancellationToken);
         return _mapper.Map<AdvertsResponse>(advertisement);
     }
 }

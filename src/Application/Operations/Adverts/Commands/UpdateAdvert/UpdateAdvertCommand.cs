@@ -8,12 +8,12 @@ public record UpdateAdvertCommand : IRequest<AdvertsResponse>
     public Guid CurrentUserId { get; private set; }
 
     [Required] 
-    public required Guid AdvertisementId { get; set; }
+    public required Guid AdvertId { get; init; }
 
-    public string? Description { get; set; }
+    public string? Description { get; init; }
 
     [Range(10, double.MaxValue)]
-    public decimal? Price { get; set; }
+    public decimal? Price { get; init; }
 
     public void SetCurrentUserId(string id) => CurrentUserId = Guid.Parse(id);
 }

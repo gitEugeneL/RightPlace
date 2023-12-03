@@ -20,8 +20,7 @@ public class GetAllAdvertsQueryHandler :
     public async Task<PaginatedList<AdvertsResponse>> 
         Handle(GetAllAdvertsQueryWithPagination request, CancellationToken cancellationToken)
     {
-        var (advertisements, count) = await _advertRepository
-            .GetAdvertisementWithPaginationAsync(
+        var (advertisements, count) = await _advertRepository.GetAdvertWithPaginationAsync(
                 cancellationToken: cancellationToken,
                 pageNumber: request.PageNumber,
                 pageSize: request.PageSize,

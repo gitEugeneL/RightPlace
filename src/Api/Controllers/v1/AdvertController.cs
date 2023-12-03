@@ -53,7 +53,7 @@ public class AdvertController : BaseController
         if (userId is null)
             return BadRequest();
 
-        var command = new DeleteAdvertCommand { AdvertisementId = advertisementId }
+        var command = new DeleteAdvertCommand { AdvertId = advertisementId }
             .SetCurrentUserId(userId);
         
         await Mediator.Send(command);

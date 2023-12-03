@@ -19,7 +19,7 @@ public class GetAdvertQueryHandler : IRequestHandler<GetAdvertQuery, AdvertsResp
     
     public async Task<AdvertsResponse> Handle(GetAdvertQuery request, CancellationToken cancellationToken)
     {
-        var advertisement = await _advertRepository.FindAdvertisementByIdAsync(request.Id, cancellationToken)
+        var advertisement = await _advertRepository.FindAdvertByIdAsync(request.Id, cancellationToken)
                             ?? throw new NotFoundException(nameof(Advert), request.Id);
 
         return _mapper.Map<AdvertsResponse>(advertisement);
