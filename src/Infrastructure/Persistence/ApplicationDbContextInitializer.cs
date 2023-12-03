@@ -1,5 +1,3 @@
-using Infrastructure.Seeders;
-
 namespace Infrastructure.Persistence;
 
 public static class ApplicationDbContextInitializer
@@ -9,8 +7,6 @@ public static class ApplicationDbContextInitializer
         context.Database.EnsureCreated();
         
         // seed data --------------------------------
-        UserSeeder.Seed(context);
-        CategorySeeder.Seed(context);
-        TypeSeeder.Seed(context);
+        DataGenerator.Seed(context);
     }
 }
