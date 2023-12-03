@@ -34,7 +34,7 @@ public static class DataGenerator
         };
         
         var userGenerator = new Faker<User>()
-            .RuleFor(user => user.Email, fake => fake.Person.Email)
+            .RuleFor(user => user.Email,fake => fake.Person.Email + fake.Random.Number(1, 9999))
             .RuleFor(user => user.FirstName, fake => fake.Person.FirstName)
             .RuleFor(user => user.LastName, fake => fake.Person.LastName)
             .RuleFor(user => user.Phone, fake => fake.Person.Phone)
@@ -43,15 +43,23 @@ public static class DataGenerator
             .RuleFor(user => user.PasswordSalt, salt)
             .RuleFor(user => user.DateOfBirth, fake =>
                 new DateOnly(fake.Person.DateOfBirth.Year, fake.Person.DateOfBirth.Month, fake.Person.DateOfBirth.Day));
-        
+
+        var addressGenerator = new Faker<Address>()
+            .RuleFor(address => address.City, faker => faker.Address.City())
+            .RuleFor(address => address.Street, faker => faker.Address.StreetName())
+            .RuleFor(address => address.Province, faker => faker.Address.County())
+            .RuleFor(address => address.House, fake => fake.Address.BuildingNumber())
+            .RuleFor(address => address.GpsPosition, faker =>
+                faker.Address.Latitude().ToString("F6") + ", " + faker.Address.Longitude().ToString("F6"));
+            
         var advertGenerator = new Faker<Advert>()
-            .RuleFor(advert => advert.Title, faker => $"{ faker.Lorem.Word() } real-estate")
+            .RuleFor(advert => advert.Title, faker => $"{faker.Lorem.Word()}-{faker.UniqueIndex}")
             .RuleFor(advert => advert.Description, faker => faker.Lorem.Sentence())
             .RuleFor(advert => advert.Price, faker => Math.Round(faker.Random.Decimal(10000, 500000), 2))
             .RuleFor(advert => advert.Category, faker => faker.Random.ListItem(categories))
             .RuleFor(advert => advert.Type, faker => faker.Random.ListItem(types))
-            .RuleFor(advert => advert.User, faker => userGenerator.Generate());
-            // address
+            .RuleFor(advert => advert.User, userGenerator.Generate())
+            .RuleFor(advert => advert.Address, addressGenerator.Generate());
             // information
             
         var advert = advertGenerator.Generate(10);

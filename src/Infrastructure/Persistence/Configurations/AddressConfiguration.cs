@@ -27,7 +27,7 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
         builder.Property(address => address.GpsPosition)
             .HasMaxLength(250);
 
-        builder.Property(address => address.Updated)
+        builder.Property(address => address.Created)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
