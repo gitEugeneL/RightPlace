@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class AddressConfiguration : IEntityTypeConfiguration<Address>
+internal class AddressConfiguration : IEntityTypeConfiguration<Address>
 {
     public void Configure(EntityTypeBuilder<Address> builder)
     {
@@ -32,7 +32,7 @@ public class AddressConfiguration : IEntityTypeConfiguration<Address>
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
         // one to one -------------------------------------------------------------------
-        builder.HasOne<Advertisement>(address => address.Advertisement)
+        builder.HasOne<Advert>(address => address.Advert)
             .WithOne(advertisement => advertisement.Address)
             .OnDelete(DeleteBehavior.Cascade);
     }
