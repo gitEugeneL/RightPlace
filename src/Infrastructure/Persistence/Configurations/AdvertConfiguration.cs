@@ -8,21 +8,21 @@ internal class AdvertConfiguration : IEntityTypeConfiguration<Advert>
 {
     public void Configure(EntityTypeBuilder<Advert> builder)
     {
-        builder.HasIndex(advertisement => advertisement.Title)
+        builder.HasIndex(advert => advert.Title)
             .IsUnique();
         
-        builder.Property(advertisement => advertisement.Title)
+        builder.Property(advert => advert.Title)
             .IsRequired()
             .HasMaxLength(100);
 
-        builder.Property(advertisement => advertisement.Description)
+        builder.Property(advert => advert.Description)
             .IsRequired();
 
-        builder.Property(advertisement => advertisement.Price)
+        builder.Property(advert => advert.Price)
             .IsRequired()
             .HasColumnType("decimal(18, 2)");
         
-        builder.Property(advertisement => advertisement.Created)
+        builder.Property(advert => advert.Created)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
     }

@@ -8,32 +8,33 @@ internal class InformationConfiguration : IEntityTypeConfiguration<Information>
 {
     public void Configure(EntityTypeBuilder<Information> builder)
     {
-        builder.Property(advertisement => advertisement.RoomCount)
+        builder.Property(information => information.RoomCount)
+            .IsRequired();
+        
+        builder.Property(information => information.Area)
             .IsRequired();
 
-        builder.Property(advertisement => advertisement.RoomCount)
-            .IsRequired();
-
-        builder.Property(advertisement => advertisement.Area)
-            .IsRequired();
-
-        builder.Property(advertisement => advertisement.Elevator)
+        builder.Property(information => information.Elevator)
             .IsRequired()
             .HasDefaultValue(false);
 
-        builder.Property(advertisement => advertisement.Balcony)
+        builder.Property(information => information.Balcony)
             .IsRequired()
             .HasDefaultValue(false);
 
-        builder.Property(advertisement => advertisement.YearOfConstruction)
+        builder.Property(information => information.YearOfConstruction)
             .IsRequired()
             .HasMaxLength(4);
 
-        builder.Property(advertisement => advertisement.Floor)
+        builder.Property(information => information.Floor)
             .HasMaxLength(3);
 
-        builder.Property(advertisement => advertisement.EnergyEfficiencyRating)
+        builder.Property(information => information.EnergyEfficiencyRating)
             .HasMaxLength(5);
+        
+        builder.Property(information => information.Created)
+            .IsRequired()
+            .HasDefaultValueSql("CURRENT_TIMESTAMP");
         
         // one to one -------------------------------------------------------------------
         builder.HasOne<Advert>(information => information.Advert)

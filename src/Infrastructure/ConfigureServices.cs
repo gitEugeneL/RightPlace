@@ -1,5 +1,4 @@
 using Application.Common.Interfaces;
-using Application.Operations.Addresses;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Security;
@@ -21,6 +20,7 @@ public static class ConfigureServices
         services.AddScoped<ICategoryRepository, CategoryRepository>();
         services.AddScoped<ITypeRepository, TypeRepository>();
         services.AddScoped<IAddressRepository, AddressRepository>();
+        services.AddScoped<IInformationRepository, InformationRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtManager, JwtManager>();
         
