@@ -55,6 +55,7 @@ public class AdvertRepository : IAdvertRepository
     public async Task<Advert?> FindAdvertByIdAsync(Guid id, CancellationToken cancellationToken)
     {
         return await _dataContext.Adverts
+            .Include(a => a.Images)
             .FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
     }
     
@@ -75,6 +76,7 @@ public class AdvertRepository : IAdvertRepository
             .Include(a => a.Type)
             .Include(a => a.User)
             .Include(a => a.Address)
+            .Include(a => a.Images)
             .AsQueryable();
         
         query = categoryId.HasValue 

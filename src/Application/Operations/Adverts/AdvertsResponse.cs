@@ -5,6 +5,7 @@ public record AdvertsResponse(
     string Title,
     string Description,
     decimal Price,
+    List<string> Images,
     Guid CategoryId,
     Guid TypeId,
     Guid? AddressId,

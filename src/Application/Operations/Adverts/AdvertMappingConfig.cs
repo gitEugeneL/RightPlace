@@ -17,6 +17,7 @@ public class AdvertMappingConfig : IRegister
             .Map(dest => dest.AddressId, src => src.AddressId)
             .Map(dest => dest.InformationId, src => src.InformationId)
             .Map(dest => dest.Created, src => src.Created)
-            .Map(dest => dest.Updated, src => src.Updated);
+            .Map(dest => dest.Updated, src => src.Updated)
+            .Map(dest => dest.Images, src => src.Images.Select(image => image.FileName));
     }
 }
