@@ -19,6 +19,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public required DbSet<Category> Categories { get; set; }
     public required DbSet<Type> Types { get; set; }
     public required DbSet<Information> Information { get; set; }
+    public required DbSet<Image> Images { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -30,6 +31,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new TypesConfiguration());
         builder.ApplyConfiguration(new InformationConfiguration());
+        builder.ApplyConfiguration(new ImageConfiguration());
         
         base.OnModelCreating(builder);
     }

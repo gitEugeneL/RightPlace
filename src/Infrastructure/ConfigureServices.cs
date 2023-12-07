@@ -1,10 +1,12 @@
 using Application.Common.Interfaces;
+using Infrastructure.FileService;
 using Infrastructure.Persistence;
 using Infrastructure.Repositories;
 using Infrastructure.Security;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Minio.AspNetCore;
 
 namespace Infrastructure;
 
@@ -21,8 +23,10 @@ public static class ConfigureServices
         services.AddScoped<ITypeRepository, TypeRepository>();
         services.AddScoped<IAddressRepository, AddressRepository>();
         services.AddScoped<IInformationRepository, InformationRepository>();
+        services.AddScoped<IImageRepository, ImageRepository>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IJwtManager, JwtManager>();
+        services.AddScoped<IImageManager, ImageManager>();
         
         // Db connection config --------------------------------------------------------------------
         services.AddDbContext<ApplicationDbContext>(option =>
@@ -34,6 +38,14 @@ public static class ConfigureServices
         // Db initializer config -------------------------------------------------------------------
         ApplicationDbContextInitializer
             .Init(services.BuildServiceProvider().GetRequiredService<ApplicationDbContext>());
+        
+        // MinIO config ---------------------------------------------------------------
+        services.AddMinio(options =>
+        {
+            options.Endpoint = configuration.GetSection("MinIO:Endpoint").Value!;
+            options.AccessKey = configuration.GetSection("MinIO:AccessKey").Value!;
+            options.SecretKey = configuration.GetSection("MinIO:SecretKey").Value!;
+        });
         
         return services;
     }

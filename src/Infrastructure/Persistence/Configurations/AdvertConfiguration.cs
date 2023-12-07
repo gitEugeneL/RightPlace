@@ -25,5 +25,10 @@ internal class AdvertConfiguration : IEntityTypeConfiguration<Advert>
         builder.Property(advert => advert.Created)
             .IsRequired()
             .HasDefaultValueSql("CURRENT_TIMESTAMP");
+        
+        // many to one ------------------------------------------------------------
+        builder.HasMany<Image>(advert => advert.Images)
+            .WithOne(image => image.Advert)
+            .HasForeignKey(image => image.AdvertId);
     }
 }

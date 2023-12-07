@@ -9,6 +9,8 @@ public class Advert : BaseAuditableEntity
     public required decimal Price { get; set; }
     
     // relations ---------------------------------------------------
+    public List<Image> Images { get; set; } = new();
+    
     public required User User { get; set; }
     public Guid UserId { get; set; }
 
@@ -17,7 +19,7 @@ public class Advert : BaseAuditableEntity
 
     public required Type Type { get; set; }
     public Guid TypeId { get; set; }
-
+    
     public Address? Address { get; set; }
     public Guid? AddressId { get; set; }
 
