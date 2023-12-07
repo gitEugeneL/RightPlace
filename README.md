@@ -6,12 +6,11 @@ Final project on the subject of **Cloud-oriented web applications**.
 
 This is a rest api service for the real estate portal.
 
-The project implements a clean architecture and separation into logical layers (Domain->Application->Infrastructure->Api), 
-CQRS pattern, Repository pattern, JWT authorization with refresh token, storing static files in minIO (S3-like storage).
+The project implements a clean architecture and separation into logical layers 
+(Domain -> Application -> Infrastructure -> Api), CQRS pattern, Repository pattern, JWT authorization with refresh token, storing static files in minIO (S3-like storage).
 
 <i>The main technologies used: Docker, PostgreSQL, MinIO file storage, .NET 7, Entity Framework, ASP.NET.</i>
 
----
 
 ## List of containers
 
@@ -44,11 +43,11 @@ CQRS pattern, Repository pattern, JWT authorization with refresh token, storing 
 
 1. Build and start Docker images based on the configuration defined in the docker-compose.yml.
 
-        make up     //docker-compose up --build
+        make up     // docker-compose up --build
 
 2. Stop and remove containers.
 
-        make down   //docker-compose down
+        make down   // docker-compose down
 
 
 ## API documentation
@@ -63,7 +62,6 @@ CQRS pattern, Repository pattern, JWT authorization with refresh token, storing 
 ![Database diagram](https://github.com/gitEugeneL/RightPlace/blob/main/diagram.png?raw=true)
 
 
----
 
 ## Implementation features
 
