@@ -31,8 +31,8 @@ public static class ConfigureServices
         // Db connection config --------------------------------------------------------------------
         services.AddDbContext<ApplicationDbContext>(option =>
         {
-            // option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
-            option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
+            option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
+            // option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
         });
         
         // Db initializer config -------------------------------------------------------------------

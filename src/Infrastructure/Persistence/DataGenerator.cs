@@ -72,7 +72,7 @@ public static class DataGenerator
             .RuleFor(advert => advert.Address, _ => addressGenerator.Generate())
             .RuleFor(advert => advert.Information, _ => informationGenerator.Generate());
             
-        var advert = advertGenerator.Generate(10);
+        var advert = advertGenerator.Generate(50);
         context.AddRange(advert);
         context.SaveChangesAsync(CancellationToken.None);
     }

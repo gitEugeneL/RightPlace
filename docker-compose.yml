@@ -1,24 +1,21 @@
 version: "3.8"
 
 services:
-  app:
-    container_name: app
-    build:
-      context: ./src
-      dockerfile: Dockerfile
+  
+  minio:
+    container_name: minIO-fileStorage
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data/
     ports:
-      - "5000:80"
+      - "9001:9001"
+      - "9000:9000"
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    depends_on:
-      - database
-    deploy:
-      restart_policy:
-        condition: on-failure
-        max_attempts: 3
-
+      MINIO_ROOT_USER: dev_user
+      MINIO_ROOT_PASSWORD: dev_password
     networks:
       - rightPlace-network
+    volumes:
+      - minio-storage:/data
   
   database:
     container_name: database
@@ -28,15 +25,51 @@ services:
       POSTGRES_USER: dev_user
       POSTGRES_PASSWORD: dev_pwd
     ports:
-      - "5432:5432"
+      - "5432:5432"  # open for dev
     networks:
       - rightPlace-network
     volumes:
       - database:/var/lib/postgresql/data:rw
+  
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4:8.0
+    environment:
+      PGADMIN_DEFAULT_EMAIL: dev@dev.com
+      PGADMIN_DEFAULT_PASSWORD: dev_pwd
+    ports:
+      - "8080:80"
+    depends_on:
+      - database
+    networks:
+      - rightPlace-network
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+        
+  app:
+    container_name: app
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:80"
+    depends_on:
+      - minio
+      - database
+    networks:
+      - rightPlace-network
+    deploy:
+      restart_policy:
+        condition: on-failure
+        max_attempts: 3
 
 networks:
   rightPlace-network:
     driver: bridge
 
 volumes:
+  pgadmin:
   database:
+  minio-storage:
