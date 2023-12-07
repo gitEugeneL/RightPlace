@@ -59,7 +59,7 @@ The project implements a clean architecture and separation into logical layers
 
 ## Database diagram
 
-![Database diagram](https://github.com/gitEugeneL/RightPlace/blob/main/database diagram.png)
+![Database diagram](https://github.com/gitEugeneL/RightPlace/blob/main/database-diagram.png)
 
 
 
