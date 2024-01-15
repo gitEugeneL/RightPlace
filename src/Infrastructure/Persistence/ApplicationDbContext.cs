@@ -1,7 +1,7 @@
+using System.Reflection;
 using Application.Common.Interfaces;
 using Domain.Common;
 using Domain.Entities;
-using Infrastructure.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
 using Type = Domain.Entities.Type;
 
@@ -23,16 +23,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.ApplyConfiguration(new UserConfiguration());
-        builder.ApplyConfiguration(new RoleConfiguration());
-        builder.ApplyConfiguration(new RefreshTokenConfiguration());
-        builder.ApplyConfiguration(new AddressConfiguration());
-        builder.ApplyConfiguration(new AdvertConfiguration());
-        builder.ApplyConfiguration(new CategoryConfiguration());
-        builder.ApplyConfiguration(new TypesConfiguration());
-        builder.ApplyConfiguration(new InformationConfiguration());
-        builder.ApplyConfiguration(new ImageConfiguration());
-        
+        builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(builder);
     }
     
