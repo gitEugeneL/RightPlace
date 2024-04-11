@@ -2,13 +2,13 @@ using Domain.Common;
 
 namespace Domain.Entities;
 
-public class Image : BaseAuditableEntity
+public sealed class Image : BaseAuditableEntity
 {
-    public required string BucketName { get; set; }
-    public required string FileName { get; set; }
-    public required string FileType { get; set; }
+    public required string BucketName { get; init; }
+    public required string FileName { get; init; }
+    public required string FileType { get; init; }
     
-    // relations ----------------------------------------------------------
-    public required Advert Advert { get; set; }
-    public Guid AdvertId { get; set; }
+    /*** Relations ***/
+    public required Advert Advert { get; init; }
+    public Guid AdvertId { get; init; }
 }

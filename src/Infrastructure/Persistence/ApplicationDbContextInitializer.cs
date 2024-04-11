@@ -6,7 +6,7 @@ public static class ApplicationDbContextInitializer
     {
         context.Database.EnsureCreated();
         
-        // seed data --------------------------------
+        /*** Seed data ***/
         DataGenerator.Seed(context);
     }
 }

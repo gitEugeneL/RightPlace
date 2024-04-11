@@ -22,11 +22,7 @@ internal class AdvertConfiguration : IEntityTypeConfiguration<Advert>
             .IsRequired()
             .HasColumnType("decimal(18, 2)");
         
-        builder.Property(advert => advert.Created)
-            .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
-        // many to one ------------------------------------------------------------
+        /*** many to one ***/
         builder.HasMany<Image>(advert => advert.Images)
             .WithOne(image => image.Advert)
             .HasForeignKey(image => image.AdvertId);

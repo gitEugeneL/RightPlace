@@ -26,12 +26,8 @@ internal class AddressConfiguration : IEntityTypeConfiguration<Address>
 
         builder.Property(address => address.GpsPosition)
             .HasMaxLength(250);
-
-        builder.Property(address => address.Created)
-            .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-        // one to one -------------------------------------------------------------------
+        
+        /*** one to one ***/
         builder.HasOne<Advert>(address => address.Advert)
             .WithOne(advertisement => advertisement.Address)
             .OnDelete(DeleteBehavior.Cascade);

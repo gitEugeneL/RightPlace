@@ -16,7 +16,7 @@ internal class RoleConfiguration : IEntityTypeConfiguration<Role>
             .HasMaxLength(50)
             .HasConversion<string>();
         
-        // many to one relation ---------------------------------------
+        /*** many to one relation ***/
         builder.HasMany<User>(role => role.Users)
             .WithOne(user => user.Role)
             .HasForeignKey(user => user.RoleId);

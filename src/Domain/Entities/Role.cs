@@ -5,8 +5,8 @@ namespace Domain.Entities;
 
 public sealed class Role : BaseEntity
 {
-    public required RoleName Value { get; set; }
+    public required RoleName Value { get; init; }
     
-    // relations ---------------------------------------------------
-    public List<User> Users { get; set; } = new();
+    /*** Relations ***/
+    public List<User> Users { get; init; } = new();
 }

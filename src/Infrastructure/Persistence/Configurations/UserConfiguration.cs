@@ -23,19 +23,13 @@ internal class UserConfiguration : IEntityTypeConfiguration<User>
         
         builder.Property(user => user.Phone)
             .HasMaxLength(12);
-
-        builder.Property(user => user.DateOfBirth);
         
-        builder.Property(user => user.Created)
-            .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
-        // many to one relation ------------------------------------------------------
+        /*** many to one relation ***/
         builder.HasMany<RefreshToken>(user => user.RefreshTokens)
             .WithOne(refreshToken => refreshToken.User)
             .HasForeignKey(refreshToken => refreshToken.UserId); 
         
-        // many to one relation ------------------------------------------------------
+        /*** many to one relation ***/
         builder.HasMany<Advert>(user => user.Adverts)
             .WithOne(advert => advert.User)
             .HasForeignKey(advert => advert.UserId);

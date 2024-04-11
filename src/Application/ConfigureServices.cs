@@ -9,11 +9,11 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
-        // Mediator config ------------------------------------------------------------
-        services.AddMediatR(cnf => 
+        /*** Mediator config ***/
+        services.AddMediatR(cnf =>
             cnf.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
-        
-        // Mapster mapper config ------------------------------------------------------
+
+        /*** Mapster mapper config ***/
         var config = TypeAdapterConfig.GlobalSettings;
         config.Scan(Assembly.GetExecutingAssembly());
         services.AddSingleton(config);

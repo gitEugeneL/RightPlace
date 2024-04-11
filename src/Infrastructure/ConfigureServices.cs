@@ -15,31 +15,29 @@ public static class ConfigureServices
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddScoped<IApplicationDbContext, ApplicationDbContext>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IRoleRepository, RoleRepository>();
-        services.AddScoped<IAdvertRepository, AdvertRepository>();
-        services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<ITypeRepository, TypeRepository>();
-        services.AddScoped<IAddressRepository, AddressRepository>();
-        services.AddScoped<IInformationRepository, InformationRepository>();
-        services.AddScoped<IImageRepository, ImageRepository>();
-        services.AddScoped<IPasswordHasher, PasswordHasher>();
-        services.AddScoped<IJwtManager, JwtManager>();
-        services.AddScoped<IImageManager, ImageManager>();
+        services.AddScoped<IApplicationDbContext, ApplicationDbContext>()
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IRoleRepository, RoleRepository>()
+            .AddScoped<IAdvertRepository, AdvertRepository>()
+            .AddScoped<ICategoryRepository, CategoryRepository>()
+            .AddScoped<ITypeRepository, TypeRepository>()
+            .AddScoped<IAddressRepository, AddressRepository>()
+            .AddScoped<IInformationRepository, InformationRepository>()
+            .AddScoped<IImageRepository, ImageRepository>()
+            .AddScoped<IPasswordHasher, PasswordHasher>()
+            .AddScoped<IJwtManager, JwtManager>()
+            .AddScoped<IImageManager, ImageManager>();
         
-        // Db connection config --------------------------------------------------------------------
+        /*** Db connection config ***/
         services.AddDbContext<ApplicationDbContext>(option =>
-        {
-            option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection"));
-            // option.UseSqlite(configuration.GetConnectionString("SQLiteConnection"));
-        });
+            option.UseNpgsql(configuration.GetConnectionString("PgSQLConnection")));
+            // option.UseSqlite(configuration.GetConnectionString("SQLiteConnection")));
         
-        // Db initializer config -------------------------------------------------------------------
+        /*** Db initializer config ***/
         ApplicationDbContextInitializer
             .Init(services.BuildServiceProvider().GetRequiredService<ApplicationDbContext>());
         
-        // MinIO config ---------------------------------------------------------------
+        /*** MinIO config ***/
         services.AddMinio(options =>
         {
             options.Endpoint = configuration.GetSection("MinIO:Endpoint").Value!;

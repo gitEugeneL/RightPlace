@@ -2,10 +2,10 @@ using Domain.Common;
 
 namespace Domain.Entities;
 
-public class Type : BaseEntity
+public sealed class Type : BaseEntity
 {
-    public required string Name { get; set; }
+    public required string Name { get; init; }
     
-    // relations ---------------------------------------------------
-    public List<Advert> Adverts { get; set; } = new();
+    /*** Relations ***/
+    public List<Advert> Adverts { get; init; } = new();
 }

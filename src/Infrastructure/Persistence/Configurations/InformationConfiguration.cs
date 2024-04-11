@@ -32,11 +32,7 @@ internal class InformationConfiguration : IEntityTypeConfiguration<Information>
         builder.Property(information => information.EnergyEfficiencyRating)
             .HasMaxLength(5);
         
-        builder.Property(information => information.Created)
-            .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
-        
-        // one to one -------------------------------------------------------------------
+        /*** one to one ***/
         builder.HasOne<Advert>(information => information.Advert)
             .WithOne(advert => advert.Information)
             .OnDelete(DeleteBehavior.Cascade);

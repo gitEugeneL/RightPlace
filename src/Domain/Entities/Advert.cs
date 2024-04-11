@@ -2,27 +2,27 @@ using Domain.Common;
 
 namespace Domain.Entities;
 
-public class Advert : BaseAuditableEntity
+public sealed class Advert : BaseAuditableEntity
 {
-    public required string Title { get; set; }
+    public required string Title { get; init; }
     public required string Description { get; set; }
     public required decimal Price { get; set; }
     
-    // relations ---------------------------------------------------
-    public List<Image> Images { get; set; } = new();
+    /*** Relations ***/
+    public List<Image> Images { get; init; } = new();
     
-    public required User User { get; set; }
-    public Guid UserId { get; set; }
+    public required User User { get; init; }
+    public Guid UserId { get; init; }
 
-    public required Category Category { get; set; }
-    public Guid CategoryId { get; set; }
+    public required Category Category { get; init; }
+    public Guid CategoryId { get; init; }
 
-    public required Type Type { get; set; }
-    public Guid TypeId { get; set; }
+    public required Type Type { get; init; }
+    public Guid TypeId { get; init; }
     
-    public Address? Address { get; set; }
-    public Guid? AddressId { get; set; }
+    public Address? Address { get; init; }
+    public Guid? AddressId { get; init; }
 
-    public Information? Information { get; set; }
-    public Guid? InformationId { get; set; } 
+    public Information? Information { get; init; }
+    public Guid? InformationId { get; init; } 
 }

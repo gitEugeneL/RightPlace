@@ -17,7 +17,7 @@ internal class TypesConfiguration : IEntityTypeConfiguration<Type>
             .HasMaxLength(50)
             .HasConversion<string>();
         
-        // many to one ----------------------------------------------
+        /*** many to one ***/
         builder.HasMany<Advert>(type => type.Adverts)
             .WithOne(advert => advert.Type)
             .HasForeignKey(advert => advert.TypeId);

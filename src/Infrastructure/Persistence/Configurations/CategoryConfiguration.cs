@@ -19,7 +19,7 @@ internal class CategoryConfiguration : IEntityTypeConfiguration<Category>
         builder.Property(category => category.Description)
             .HasMaxLength(250);
         
-        // many to one ------------------------------------------------------------
+        /*** many to one ***/
         builder.HasMany<Advert>(category => category.Adverts)
             .WithOne(advert => advert.Category)
             .HasForeignKey(advert => advert.CategoryId);

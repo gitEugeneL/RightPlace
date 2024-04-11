@@ -19,9 +19,5 @@ public class ImageConfiguration : IEntityTypeConfiguration<Image>
         builder.Property(image => image.FileType)
             .IsRequired()
             .HasMaxLength(20);
-
-        builder.Property(image => image.Created)
-            .IsRequired()
-            .HasDefaultValueSql("CURRENT_TIMESTAMP");
     }
 }
