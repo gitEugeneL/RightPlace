@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Domain.Entities;
 using MediatR;
+using Microsoft.Extensions.Configuration;
 
 namespace Application.Operations.Authentications.Commands.Login;
 
@@ -11,13 +12,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationR
     private readonly IPasswordHasher _passwordHasher;
     private readonly IJwtManager _jwtManager;
     private readonly IUserRepository _userRepository;
+    private readonly IConfiguration _configuration;
     
     public LoginCommandHandler(
-        IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtManager jwtManager)
+        IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtManager jwtManager, IConfiguration configuration)
     {
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
         _jwtManager = jwtManager;
+        _configuration = configuration;
     }
     
     public async Task<AuthenticationResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -26,9 +29,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, AuthenticationR
 
         if (user is null || !_passwordHasher.VerifyPasswordHash(request.Password, user.PasswordHash, user.PasswordSalt))
             throw new AccessDeniedException(nameof(User), request.Email);
-       
-        // each user can only have 5  refresh tokens
-        if (user.RefreshTokens.Count >= 5) 
+        
+        var refreshTokenMaxCount = int.Parse(_configuration
+            .GetSection("Authentication:RefreshTokenMaxCount").Value!);
+        
+        if (user.RefreshTokens.Count >= refreshTokenMaxCount) 
         {
             var oldestToken = user.RefreshTokens.OrderBy(rt => rt.Created).First();
             user.RefreshTokens.Remove(oldestToken);

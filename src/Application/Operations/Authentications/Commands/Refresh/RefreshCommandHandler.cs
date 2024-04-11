@@ -19,14 +19,14 @@ public class RefreshCommandHandler : IRequestHandler<RefreshCommand, Authenticat
     public async Task<AuthenticationResponse> Handle(RefreshCommand request, CancellationToken cancellationToken)
     {
         // find user
-        var user = await _userRepository.FindUserByRefreshTokenAsync(request.RefreshToken, cancellationToken);
-        if (user is null)
-            throw new UnauthorizedException("Refresh token isn't valid");
+        var user = await _userRepository.FindUserByRefreshTokenAsync(request.RefreshToken, cancellationToken)
+            ?? throw new UnauthorizedException("Refresh token isn't valid");
+
         // find this token in the user
         var userRefreshToken = user.RefreshTokens.First(rt => rt.Token == request.RefreshToken);
 
         // check refresh token expiration time
-        if (userRefreshToken.Expires < DateTime.Now) 
+        if (userRefreshToken.Expires < DateTime.UtcNow) 
             throw new UnauthorizedException("Refresh token is outdated"); 
         
         // remove old refresh token

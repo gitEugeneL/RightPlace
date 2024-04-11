@@ -7,6 +7,7 @@ namespace Application.Operations.Images.Commands.UploadImage;
 
 public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, Unit>
 {
+    private const int ImageCount = 5;
     private readonly IAdvertRepository _advertRepository;
     private readonly IImageRepository _imageRepository;
     private readonly IImageManager _imageManager;
@@ -30,9 +31,9 @@ public class UploadImageCommandHandler : IRequestHandler<UploadImageCommand, Uni
         var bucketName = advert.Id.ToString();
         await _imageManager.CreateBucket(bucketName);
 
-        // each advert can only have 5 images
-        if (await _imageManager.CountFiles(bucketName) >= 5)
-            throw new AlreadyExistException(nameof(Image), "5 or more images already added");
+        // each advert can only have -_imageCount- images
+        if (await _imageManager.CountFiles(bucketName) >= ImageCount)
+            throw new AlreadyExistException(nameof(Image), $"{ImageCount} or more images already added");
 
         var fileName = $"{advert.Title}-{Guid.NewGuid()}.png";
         
