@@ -1,11 +1,13 @@
 using Application.Operations.Categories;
 using Application.Operations.Categories.Queries.GetAllCategories;
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v1;
 
-[Route("api/categories")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/categories")]
 public class CategoryController : BaseController
 {
     public CategoryController(IMediator mediator) : base(mediator) { }
@@ -17,8 +19,4 @@ public class CategoryController : BaseController
         var result = await Mediator.Send(new GetAllCategoriesQuery());
         return Ok(result);
     }
-    
-    // todo add (admin)
-    // todo delete (admin)
-    // todo update (admin)
 }

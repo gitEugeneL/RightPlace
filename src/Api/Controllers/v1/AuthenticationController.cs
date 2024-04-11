@@ -1,21 +1,25 @@
+using Api.Helpers;
 using Api.Utils;
 using Application.Common.Models;
 using Application.Operations.Authentications.Commands.Login;
 using Application.Operations.Authentications.Commands.Logout;
 using Application.Operations.Authentications.Commands.Refresh;
+using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.v1;
 
-[Route("api/auth")]
+[ApiVersion(1)]
+[Route("api/v{v:apiVersion}/auth")]
 public class AuthenticationController : BaseController
 {
     public AuthenticationController(IMediator mediator) : base(mediator) { }
     
     [HttpPost("login")]
     [ProducesResponseType(typeof(JwtToken), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
     public async Task<ActionResult<JwtToken>> Login([FromBody] LoginCommand command)
     {
         var result = await Mediator.Send(command);
@@ -26,6 +30,8 @@ public class AuthenticationController : BaseController
 
     [HttpPost("refresh")]
     [ProducesResponseType(typeof(JwtToken), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult<JwtToken>> Refresh()
     {
         var refreshToken = Request.Cookies["refreshToken"];
@@ -38,9 +44,11 @@ public class AuthenticationController : BaseController
         return Ok(result.JwtToken);
     }
 
-    [Authorize]
+    [Authorize(AppConstants.BaseAuthPolicy)]
     [HttpPost("logout")]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(string), StatusCodes.Status403Forbidden)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     public async Task<ActionResult> Logout()
     {
         var refreshToken = Request.Cookies["refreshToken"];

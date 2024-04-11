@@ -13,8 +13,9 @@ public class BaseController : ControllerBase
         Mediator = mediator;
     }
 
-    protected string? CurrentUserId()
+    protected string CurrentUserId()
     {
-        return User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        // configureService -> base auth policy
+        return User.FindFirst(ClaimTypes.NameIdentifier)?.Value!; 
     }
 }
