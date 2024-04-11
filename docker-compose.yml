@@ -25,7 +25,7 @@ services:
       POSTGRES_USER: dev_user
       POSTGRES_PASSWORD: dev_pwd
     ports:
-      - "5432:5432"  # open for dev
+      - "5432:5432"
     networks:
       - rightPlace-network
     volumes:
@@ -52,7 +52,11 @@ services:
       context: ./src
       dockerfile: Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ConnectionStrings__PgSQLConnection=Host=database;Port=5432;Database=app_db;Username=dev_user;Password=dev_pwd;"
+      - "MinIO__Endpoint=minio:9000"
+      - "MinIO__AccessKey=dev_user"
+      - "MinIO__SecretKey=dev_password"
     ports:
       - "5000:80"
     depends_on:
