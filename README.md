@@ -68,8 +68,8 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
         http://localhost:5000/swagger/index.html
 
 2. Swagger static file
-        
-        ![swagger static file](https://github.com/gitEugeneL/RightPlace/main/swagger.json)
+
+        ![swagger static file](https://github.com/gitEugeneL/RightPlace/blob/main/swagger.json)
 
 ## 🔧 Implementation features
 
