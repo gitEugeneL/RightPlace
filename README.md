@@ -22,16 +22,13 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 - [Docker](https://github.com/docker)
 
 
-## 🐳 List of containers
+## 🐳 List of docker containers
 
 - **app** - container for all application layers
 
-
 - **database** - postgresql database container
 
-
 - **pgadmin** - graphical access to databases
-
 
 - **minio** - store static files from users
 
@@ -43,13 +40,15 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 1. Build and start Docker images based on the configuration defined in the docker-compose.yml
 
-        make up   # docker-compose up --build
+   ```sh
+   > make up  # docker-compose up --build
+   ```
+
 
 2. Stop and remove containers
-
-        make down  # docker-compose down
-
-
+   ```sh
+   > make down  # docker-compose down
+   ```
 
 ## 🔐 Local access
 
@@ -67,9 +66,9 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
     
         http://localhost:5000/swagger/index.html
 
-2. Swagger static file
+2. [Swagger static file](https://github.com/gitEugeneL/RightPlace/blob/main/swagger.json)
 
-        ![swagger static file](https://github.com/gitEugeneL/RightPlace/blob/main/swagger.json)
+        https://github.com/gitEugeneL/RightPlace/blob/main/swagger.json
 
 ## 🔧 Implementation features
 
@@ -94,10 +93,11 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | password | required   | string       |
 
 ##### Responses
-> | http code | content-type       | response                                               |
-> |-----------|--------------------|--------------------------------------------------------|
-> | `200`     | `application/json` | `{"type: "Bearer", "token": "eyJhbGciOi..........."}`  |
-> | `403`     | `application/json` | `string`                                               |
+> | http code | content-type       | response                                              |
+> |-----------|--------------------|-------------------------------------------------------|
+> | `200`     | `application/json` | `{"type: "Bearer", "token": "eyJhbGciOi..........."}` |
+> | `400`     | `application/json` | `array`                                               |
+> | `403`     | `application/json` | `string`                                              |
 
 ##### Set Cookies
 > | name         | example                                                              |                                                      
@@ -170,10 +170,11 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | http code | content-type       | response                                                                                                                                                         |
 > |-----------|--------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 > | `201`     | `application/json` | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "email": "string", "firstName": "string", "lastName": "string", "phone": "string", "dateOfBirth": "2024-04-16"}` |
+> | `400`     | `application/json` | `array`                                                                                                                                                          |
 > | `409`     | `application/json` | `string`                                                                                                                                                         |
 </details>
 
-#### Get all users (*jwt required*)
+#### Get all users (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -195,7 +196,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | `403`     | `application/json`  | `string`                                                                                                                                                                                                                                 |
 </details>
 
-#### Get one user (*jwt required*)
+#### Get one user (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -212,7 +213,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | `404`     | `application/json`    | `string`                                                                                                                                                         |
 </details>
 
-#### Update your account (*jwt required*)
+#### Update your account (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -229,15 +230,16 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 ##### Responses
 
-> | http code | content-type        | response                                                                                                                                                         |
-> |-----------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-> | `200`     | `application/json`  | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "email": "string", "firstName": "string", "lastName": "string", "phone": "string", "dateOfBirth": "2024-04-16"}` |
-> | `401`     | `application/json`  | `string`                                                                                                                                                         |
-> | `403`     | `application/json`  | `string`                                                                                                                                                         |
-> | `404`     | `application/json`  | `string`                                                                                                                                                         |
+> | http code | content-type         | response                                                                                                                                                         |
+> |-----------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | `200`     | `application/json`   | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "email": "string", "firstName": "string", "lastName": "string", "phone": "string", "dateOfBirth": "2024-04-16"}` |
+> | `400`     | `application/json`   | `array`                                                                                                                                                          |
+> | `401`     | `application/json`   | `string`                                                                                                                                                         |
+> | `403`     | `application/json`   | `string`                                                                                                                                                         |
+> | `404`     | `application/json`   | `string`                                                                                                                                                         |
 </details>
 
-#### Delete your account (*jwt required*)
+#### Delete your account (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -260,7 +262,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 *Functionality that allows to manage and interact with adverts*
 
-#### Create new advert (*jwt required*)
+#### Create new advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -280,13 +282,14 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | http code | content-type       | response                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > |-----------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 > | `201`     | `application/json` | `{ "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "title": "string", "description": "string", "price": 0, "images": [ "string" ], "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "typeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "addressId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "informationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "created": "2024-04-16T16:35:50.556Z", "updated": "2024-04-16T16:35:50.556Z"}` |
+> | `400`     | `application/json` | `array`                                                                                                                                                                                                                                                                                                                                                                                                                               |
 > | `401`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > | `403`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > | `404`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > | `409`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 </details>
 
-#### Update you advert (*jwt required*)
+#### Update you advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -304,6 +307,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | http code | content-type       | response                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > |-----------|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 > | `200`     | `application/json` | `{ "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "title": "string", "description": "string", "price": 0, "images": [ "string" ], "categoryId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "typeId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "addressId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "informationId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "created": "2024-04-16T16:35:50.556Z", "updated": "2024-04-16T16:35:50.556Z"}` |
+> | `400`     | `application/json` | `array`                                                                                                                                                                                                                                                                                                                                                                                                                               |
 > | `401`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > | `403`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
 > | `404`     | `application/json` | `string`                                                                                                                                                                                                                                                                                                                                                                                                                              |
@@ -349,7 +353,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 </details>
 
 
-#### Delete your advert (*jwt required*)
+#### Delete your advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -371,7 +375,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 *Each User can add an address to their adverts*
 
-#### Add address data for advert (*jwt required*)
+#### Add address data for advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -389,17 +393,18 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | gpsPosition | required   | string    |
 
 ##### Responses
-> | http code | content-type        | response                                                                                                                                                                                                     |
-> |-----------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-> | `201`     | `application/json`  | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "city": "string", "street": "string", "province": "string", "house": "string", "gpsPosition": "string"}` |
-> | `401`     | `application/json`  | `string`                                                                                                                                                                                                     |
-> | `403`     | `application/json`  | `string`                                                                                                                                                                                                     |
-> | `404`     | `application/json`  | `string`                                                                                                                                                                                                     |
-> | `409`     | `application/json`  | `string`                                                                                                                                                                                                     |
+> | http code | content-type         | response                                                                                                                                                                                                     |
+> |-----------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | `201`     | `application/json`   | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "city": "string", "street": "string", "province": "string", "house": "string", "gpsPosition": "string"}` |
+> | `400`     | `application/json`   | `array`                                                                                                                                                                                                      |
+> | `401`     | `application/json`   | `string`                                                                                                                                                                                                     |
+> | `403`     | `application/json`   | `string`                                                                                                                                                                                                     |
+> | `404`     | `application/json`   | `string`                                                                                                                                                                                                     |
+> | `409`     | `application/json`   | `string`                                                                                                                                                                                                     |
 </details>
 
 
-#### Update address data for advert (*jwt required*)
+#### Update address data for advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -418,12 +423,13 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 
 > ##### Responses
-> | http code | content-type        | response                                                                                                                                                                                                     |
-> |-----------|---------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-> | `201`     | `application/json`  | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "city": "string", "street": "string", "province": "string", "house": "string", "gpsPosition": "string"}` |
-> | `401`     | `application/json`  | `string`                                                                                                                                                                                                     |
-> | `403`     | `application/json`  | `string`                                                                                                                                                                                                     |
-> | `404`     | `application/json`  | `string`                                                                                                                                                                                                     |
+> | http code | content-type         | response                                                                                                                                                                                                     |
+> |-----------|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | `201`     | `application/json`   | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "city": "string", "street": "string", "province": "string", "house": "string", "gpsPosition": "string"}` |
+> | `400`     | `application/json`   | `array`                                                                                                                                                                                                      |
+> | `401`     | `application/json`   | `string`                                                                                                                                                                                                     |
+> | `403`     | `application/json`   | `string`                                                                                                                                                                                                     |
+> | `404`     | `application/json`   | `string`                                                                                                                                                                                                     |
 </details>
 
 #### Get address data
@@ -446,7 +452,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 
 *Each user can add detailed information to their advert*
 
-#### Add information for advert (*jwt required*)
+#### Add information for advert (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -466,16 +472,17 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | energyEfficiencyRating | required  | string    |
 
 ##### Responses
-> | http code | content-type          | response                                                                                                                                                                                                                                    |
-> |-----------|-----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-> | `201`     | `application/json`    | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "roomCount": 0, "area": 0, "yearOfConstruction": 0, "elevator": true, "balcony": true, "floor": 0, "energyEfficiencyRating": "string"}` |
-> | `401`     | `application/json`    | `string`                                                                                                                                                                                                                                    |
-> | `403`     | `application/json`    | `string`                                                                                                                                                                                                                                    |
-> | `404`     | `application/json`    | `string`                                                                                                                                                                                                                                    |
-> | `409`     | `application/json`    | `string`                                                                                                                                                                                                                                    |
+> | http code | content-type         | response                                                                                                                                                                                                                                       |
+> |-----------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | `201`     | `application/json`   | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "advertId": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "roomCount": 0, "area": 0, "yearOfConstruction": 2025, "elevator": true, "balcony": true, "floor": 0, "energyEfficiencyRating": "string"}` |
+> | `400`     | `application/json`   | `array`                                                                                                                                                                                                                                        |
+> | `401`     | `application/json`   | `string`                                                                                                                                                                                                                                       |
+> | `403`     | `application/json`   | `string`                                                                                                                                                                                                                                       |
+> | `404`     | `application/json`   | `string`                                                                                                                                                                                                                                       |
+> | `409`     | `application/json`   | `string`                                                                                                                                                                                                                                       |
 </details>
 
-#### Update your advert information (*jwt required*)
+#### Update your advert information (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -494,12 +501,13 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 > | balcony                | not required | boolean   |
 
 ##### Responses
-> | http code | content-type        | response                                                                                                                                                         |
-> |-----------|---------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-> | `200`     | `application/json`  | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "email": "string", "firstName": "string", "lastName": "string", "phone": "string", "dateOfBirth": "2024-04-16"}` |
-> | `401`     | `application/json`  | `string`                                                                                                                                                         |
-> | `403`     | `application/json`  | `string`                                                                                                                                                         |
-> | `404`     | `application/json`  | `string`                                                                                                                                                         |
+> | http code | content-type         | response                                                                                                                                                         |
+> |-----------|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+> | `200`     | `application/json`   | `{"id": "3fa85f64-5717-4562-b3fc-2c963f66afa6", "email": "string", "firstName": "string", "lastName": "string", "phone": "string", "dateOfBirth": "2024-04-16"}` |
+> | `400`     | `application/json`   | `array`                                                                                                                                                          |
+> | `401`     | `application/json`   | `string`                                                                                                                                                         |
+> | `403`     | `application/json`   | `string`                                                                                                                                                         |
+> | `404`     | `application/json`   | `string`                                                                                                                                                         |
 </details>
 
 #### Get information
@@ -561,7 +569,7 @@ The project implements Clean Architecture, CQRS, MediatR, Repository pattern, cu
 *Each user creating an advert can upload up to 5 images for each advert.
 This user can also update and delete them*
 
-#### Upload images (*jwt required*)
+#### Upload images (🔒️*jwt required*)
 
 <details>
 <summary>
@@ -597,7 +605,7 @@ This user can also update and delete them*
 > | `404`     | `application/json`    | `"string"`     |
 </details>
 
-#### Delete your images (*jwt required*)
+#### Delete your images (🔒️*jwt required*)
 
 <details>
 <summary>
